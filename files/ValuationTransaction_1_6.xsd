@@ -1,0 +1,2910 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xar W3C XML Schema?>
+<?stylesheet format="schema" config="lixi" xsl-rootelement="ValuationTransaction"?>
+<xs:schema xmlns:ps="http://www.pageseeder.com/editing/2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="ValuationTransaction">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RevisionNumber"/>
+				<xs:element ref="Identifier" maxOccurs="unbounded"/>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time"/>
+				<xs:element ref="Comment" minOccurs="0"/>
+				<xs:element ref="Publisher"/>
+				<xs:element ref="Audience" minOccurs="0"/>
+				<xs:element ref="MessageRelatesTo" minOccurs="0"/>
+				<xs:element ref="MessageContact" minOccurs="0"/>
+				<xs:element ref="Message"/>
+				<xs:element ref="RelatedPartySegment"/>
+				<xs:element ref="AttachmentSegment" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="ProductionData" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ValuationType">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier" maxOccurs="unbounded"/>
+				<xs:choice>
+					<xs:element ref="FullRegistered" minOccurs="0"/>
+					<xs:element ref="ProgressInspection" minOccurs="0"/>
+					<xs:element ref="Costing" minOccurs="0"/>
+					<xs:element ref="RestrictedAccessAssessment" minOccurs="0"/>
+					<xs:element ref="WorkFlow" minOccurs="0"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:annotation/>
+	<xs:element name="Identifier">
+		<xs:complexType>
+			<xs:attribute name="UniqueID" type="xs:string" use="required"/>
+			<xs:attribute name="Type">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="AggregatorAssigned"/>
+						<xs:enumeration value="BrokerAssigned"/>
+						<xs:enumeration value="CustomerAssigned"/>
+						<xs:enumeration value="LenderAssigned"/>
+						<xs:enumeration value="LIXIcode"/>
+						<xs:enumeration value="MIAssigned"/>
+						<xs:enumeration value="NomineeAssigned"/>
+						<xs:enumeration value="Sequential"/>
+						<xs:enumeration value="TIAssigned"/>
+						<xs:enumeration value="ValuerAssigned"/>
+						<xs:enumeration value="VPMAssigned"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Description" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RevisionNumber">
+		<xs:complexType>
+			<xs:attribute name="LIXIVersion" type="xs:string" use="required"/>
+			<xs:attribute name="LenderVersion" type="xs:string" use="optional"/>
+			<xs:attribute name="UserVersion" type="xs:string" use="optional"/>
+			<xs:attribute name="UserType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Lender"/>
+						<xs:enumeration value="TitleInsurer"/>
+						<xs:enumeration value="Valuer"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Date" type="xs:date"/>
+	<xs:element name="Time" type="xs:time"/>
+	<xs:element name="Publisher">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RelatedEntityRef"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Audience">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RelatedEntityRef" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RelatedEntityRef">
+		<xs:complexType>
+			<xs:attribute name="RelatedID" type="xs:string" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Message">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier"/>
+				<xs:element ref="MessageRelatesTo"/>
+				<xs:element ref="MessageContact" minOccurs="0"/>
+				<xs:element ref="MessageBody" maxOccurs="unbounded"/>
+				<xs:element ref="ValuationType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MessageRelatesTo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="MessageFileName" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MessageFileName">
+		<xs:complexType/>
+	</xs:element>
+	<xs:element name="MessageContact">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RelatedEntityRef"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MessageBody">
+		<xs:complexType>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element ref="MessageAnnotation" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="ErrorLocation" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:element ref="Status" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Event" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:choice>
+			<xs:attribute name="Type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Information"/>
+						<xs:enumeration value="DataError"/>
+						<xs:enumeration value="SystemError"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ErrorSource">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Parser"/>
+						<xs:enumeration value="DTD"/>
+						<xs:enumeration value="XSD"/>
+						<xs:enumeration value="XSLT"/>
+						<xs:enumeration value="Schematron"/>
+						<xs:enumeration value="Proprietary"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ErrorSourceVersion" type="xs:string"/>
+			<xs:attribute name="Order" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="MessageAnnotation">
+		<xs:complexType mixed="true">
+			<xs:attribute name="Type">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Code"/>
+						<xs:enumeration value="Message"/>
+						<xs:enumeration value="EndUserMessage"/>
+						<xs:enumeration value="Technical"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ErrorLocation">
+		<xs:complexType mixed="true">
+			<xs:attribute name="ColNumber" type="xs:string"/>
+			<xs:attribute name="LineNumber" type="xs:string"/>
+			<xs:attribute name="FilePosition" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Status">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="Name" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Initial"/>
+						<xs:enumeration value="Inquiring"/>
+						<xs:enumeration value="Instructed"/>
+						<xs:enumeration value="Accepted"/>
+						<xs:enumeration value="Assigned"/>
+						<xs:enumeration value="Declined"/>
+						<xs:enumeration value="InProgress"/>
+						<xs:enumeration value="Inspected"/>
+						<xs:enumeration value="AwaitingAuthorisation"/>
+						<xs:enumeration value="ValuationCompleted"/>
+						<xs:enumeration value="Finalised"/>
+						<xs:enumeration value="AmendmentRequired"/>
+						<xs:enumeration value="Cancelled"/>
+						<xs:enumeration value="Delayed"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="StatusOwner" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Event">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="Name" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Person">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RelatedEntityRef" minOccurs="0"/>
+				<xs:element ref="PersonName"/>
+				<xs:element ref="ContactDetails"/>
+			</xs:sequence>
+			<xs:attribute name="CompanyDirector">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="FirstHomeBuyer">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PreviousName" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Company">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="CompanyName"/>
+				<xs:element ref="ContactDetails" maxOccurs="unbounded"/>
+				<xs:element ref="WebAddress" minOccurs="0"/>
+				<xs:element ref="Director" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="CompanyType"/>
+				<xs:element ref="CompanyNumber"/>
+				<xs:element ref="RegisteredIn"/>
+			</xs:sequence>
+			<xs:attribute name="Status">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Exempt"/>
+						<xs:enumeration value="NonExempt"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CompanyName">
+		<xs:complexType mixed="true">
+			<xs:attribute name="BusinessName" type="xs:string"/>
+			<xs:attribute name="LicenceNumber" type="xs:string"/>
+			<xs:attribute name="PublicAuthority">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CompanyNumber">
+		<xs:complexType>
+			<xs:attribute name="ABN" type="xs:string"/>
+			<xs:attribute name="ACN" type="xs:string"/>
+			<xs:attribute name="ABRN" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CompanyType">
+		<xs:complexType>
+			<xs:attribute name="Type">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Ltd"/>
+						<xs:enumeration value="NL"/>
+						<xs:enumeration value="Inc"/>
+						<xs:enumeration value="PtyLtd"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="NumberOfDirectors" type="xs:string"/>
+			<xs:attribute name="Description">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="SoleTrader"/>
+						<xs:enumeration value="Partnership"/>
+						<xs:enumeration value="Corporation"/>
+						<xs:enumeration value="Trust"/>
+						<xs:enumeration value="NonProfitOrganisation"/>
+						<xs:enumeration value="FederalPublicEnterprise"/>
+						<xs:enumeration value="StatePublicEnterprise"/>
+						<xs:enumeration value="LocalPublicEnterprise"/>
+						<xs:enumeration value="Superannuation"/>
+						<xs:enumeration value="FederalGovernment"/>
+						<xs:enumeration value="StateGovernment"/>
+						<xs:enumeration value="LocalGovernment"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherDescription" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RegisteredIn">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:sequence>
+					<xs:element ref="Country"/>
+					<xs:element ref="State"/>
+				</xs:sequence>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ContactDetails">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="RelatedEntityRef" maxOccurs="unbounded"/>
+				<xs:sequence>
+					<xs:element ref="AddressDetails" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="HomePhone" minOccurs="0"/>
+					<xs:element ref="WorkPhone" minOccurs="0"/>
+					<xs:element ref="Email" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Director">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RelatedEntityRef"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PersonName">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="NameTitle" minOccurs="0"/>
+				<xs:element ref="FirstName" minOccurs="0"/>
+				<xs:element ref="OtherName" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="AlsoKnownAs" minOccurs="0"/>
+				<xs:element ref="Surname"/>
+			</xs:sequence>
+			<xs:attribute name="LanguageSpoken" type="xs:string"/>
+			<xs:attribute name="IsPreferredContact">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="MostPreferred"/>
+						<xs:enumeration value="SecondPreferred"/>
+						<xs:enumeration value="ThirdPreferred"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="NameTitle">
+		<xs:complexType>
+			<xs:attribute name="Value">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Mr"/>
+						<xs:enumeration value="Mrs"/>
+						<xs:enumeration value="Miss"/>
+						<xs:enumeration value="Ms"/>
+						<xs:enumeration value="Dr"/>
+						<xs:enumeration value="Prof"/>
+						<xs:enumeration value="Rev"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Description" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FirstName" type="xs:string"/>
+	<xs:element name="OtherName" type="xs:string"/>
+	<xs:element name="AlsoKnownAs" type="xs:string"/>
+	<xs:element name="Surname" type="xs:string"/>
+	<xs:element name="RealEstate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier" maxOccurs="unbounded"/>
+				<xs:element ref="Residential"/>
+				<xs:element ref="EstimatedValue" minOccurs="0"/>
+				<xs:element ref="Location" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="Status">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="NewBuilding"/>
+						<xs:enumeration value="ToBeBuilt"/>
+						<xs:enumeration value="Established"/>
+						<xs:enumeration value="VacantLand"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PrimarySecurity">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="InvestmentPropertyLetter">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ApprovalInPrinciple">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SecureOther">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Construction">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="FloorArea" type="xs:string"/>
+			<xs:attribute name="NumberOfBedrooms" type="xs:string"/>
+			<xs:attribute name="IsTrustAsset">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="LVRPercentage" type="xs:string"/>
+			<xs:attribute name="MortgageInsurance">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Occupancy">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="OwnerPrimary"/>
+						<xs:enumeration value="OwnerSecondary"/>
+						<xs:enumeration value="NonOwner"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Prepurchase">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SDTransfer" type="xs:string"/>
+			<xs:attribute name="SelfConveyance">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="LandAreaHectares" type="xs:string"/>
+			<xs:attribute name="TOTransfer" type="xs:string"/>
+			<xs:attribute name="TOTotal" type="xs:string"/>
+			<xs:attribute name="TOCompanyTitle" type="xs:string"/>
+			<xs:attribute name="TOOther" type="xs:string"/>
+			<xs:attribute name="TOOtherDescription" type="xs:string"/>
+			<xs:attribute name="Transaction">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Owns"/>
+						<xs:enumeration value="Purchasing"/>
+						<xs:enumeration value="Refinancing"/>
+						<xs:enumeration value="Selling"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Holding">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Sole"/>
+						<xs:enumeration value="JointTenants"/>
+						<xs:enumeration value="TennantCommonInSharesOf"/>
+						<xs:enumeration value="TennantCommonInEqualShares"/>
+						<xs:enumeration value="CompanyShare"/>
+						<xs:enumeration value="TimeShare"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ValuationProgram">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="InPrinciple"/>
+						<xs:enumeration value="NoValuation"/>
+						<xs:enumeration value="Regular"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="AcceptableSecurity">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ZoningAcceptable">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PropertyPrimaryPurpose">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="OwnerOccupied"/>
+						<xs:enumeration value="Investment"/>
+						<xs:enumeration value="Business"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Zoning" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Residential">
+		<xs:complexType>
+			<xs:attribute name="Type">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="AptUnitFlat"/>
+						<xs:enumeration value="SemiDetachedHouse"/>
+						<xs:enumeration value="FullyDetachedHouse"/>
+						<xs:enumeration value="NewStrataTitleUnit"/>
+						<xs:enumeration value="StrataTitleUnit"/>
+						<xs:enumeration value="CompanyTitleUnit"/>
+						<xs:enumeration value="ConvertedCommercialProperty"/>
+						<xs:enumeration value="ConvertedMotelUnits"/>
+						<xs:enumeration value="ConvertedIndustrialProperty"/>
+						<xs:enumeration value="HolidayHome"/>
+						<xs:enumeration value="HolidayRental"/>
+						<xs:enumeration value="Terrace"/>
+						<xs:enumeration value="Townhouse"/>
+						<xs:enumeration value="Duplex"/>
+						<xs:enumeration value="Timeshare"/>
+						<xs:enumeration value="RentalGuarantee"/>
+						<xs:enumeration value="GovtRentalGuarantee"/>
+						<xs:enumeration value="OwnerBuilderHouseConstruction"/>
+						<xs:enumeration value="LicencedBuilderHouseConstruction"/>
+						<xs:enumeration value="ResortUnit"/>
+						<xs:enumeration value="ServicedApt"/>
+						<xs:enumeration value="Villa"/>
+						<xs:enumeration value="VacantLand"/>
+						<xs:enumeration value="PropertyDevelopment"/>
+						<xs:enumeration value="StudioWarehouseApt"/>
+						<xs:enumeration value="BedsitterBachelor"/>
+						<xs:enumeration value="SingleBedroomLess50m2"/>
+						<xs:enumeration value="LuxuryHouse"/>
+						<xs:enumeration value="LuxuryOther"/>
+						<xs:enumeration value="UnitStudentAccom"/>
+						<xs:enumeration value="HomeUnit"/>
+						<xs:enumeration value="MotelHotelUnit"/>
+						<xs:enumeration value="StudioUnit"/>
+						<xs:enumeration value="AgedCareUnit"/>
+						<xs:enumeration value="RuralResidentialWithDwelling"/>
+						<xs:enumeration value="VacantRuralResidentialSite"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="WillOwn3UnitsInComplex">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="WillOwn25PercentOfComplex">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OffThePlan">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EstimatedValue">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element ref="RelatedEntityRef" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Date" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="EstimateBasis">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ApplicantEstimate"/>
+						<xs:enumeration value="CertifiedValuation"/>
+						<xs:enumeration value="CustomerEstimate"/>
+						<xs:enumeration value="ContractPrice"/>
+						<xs:enumeration value="Database"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherDescription"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Location">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element ref="Address"/>
+					<xs:element ref="RelatedEntityRef"/>
+				</xs:choice>
+				<xs:element ref="Title" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AddressDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element ref="Address"/>
+					<xs:element ref="RelatedEntityRef"/>
+				</xs:choice>
+				<xs:choice minOccurs="0">
+					<xs:element ref="StartAndEndDates"/>
+					<xs:element ref="Duration"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="Mailing">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Residential">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PreferredContactMethod">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PreSettlement">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PostSettlement">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PriorAddress">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="HousingStatus">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Boarding"/>
+						<xs:enumeration value="Renting"/>
+						<xs:enumeration value="OwnHome"/>
+						<xs:enumeration value="OwnHomeMortgage"/>
+						<xs:enumeration value="WithParents"/>
+						<xs:enumeration value="Caravan"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherDescription" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Address">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element ref="BuildingName" minOccurs="0"/>
+						<xs:element ref="FloorNo" minOccurs="0"/>
+						<xs:element ref="UnitNo" minOccurs="0"/>
+						<xs:element ref="StreetNo"/>
+						<xs:element ref="Street"/>
+					</xs:sequence>
+					<xs:sequence>
+						<xs:element ref="POBox"/>
+						<xs:element ref="POExchange" minOccurs="0"/>
+					</xs:sequence>
+					<xs:sequence>
+						<xs:element ref="DXBox"/>
+						<xs:element ref="DXExchange" minOccurs="0"/>
+					</xs:sequence>
+					<xs:element ref="NonStdAddress"/>
+				</xs:choice>
+				<xs:element ref="City"/>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element ref="State"/>
+						<xs:element ref="Postcode"/>
+						<xs:element ref="DeliveryPointIdentifier" minOccurs="0"/>
+						<xs:element ref="Country"/>
+					</xs:sequence>
+					<xs:sequence>
+						<xs:element ref="OverseasState" minOccurs="0"/>
+						<xs:element ref="Postcode"/>
+						<xs:element ref="Country"/>
+					</xs:sequence>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuildingName" type="xs:string"/>
+	<xs:element name="FloorNo" type="xs:string"/>
+	<xs:element name="UnitNo" type="xs:string"/>
+	<xs:element name="StreetNo" type="xs:string"/>
+	<xs:element name="Street">
+		<xs:complexType mixed="true">
+			<xs:attribute name="Type" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="POBox">
+		<xs:complexType mixed="true">
+			<xs:attribute name="Type">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="CareOfPostOffice"/>
+						<xs:enumeration value="CommunityMailAgent"/>
+						<xs:enumeration value="CommunityMailBag"/>
+						<xs:enumeration value="CommunityPostalAgent"/>
+						<xs:enumeration value="Freepost"/>
+						<xs:enumeration value="GPOBox"/>
+						<xs:enumeration value="Lockedbag"/>
+						<xs:enumeration value="MailBag"/>
+						<xs:enumeration value="MailService"/>
+						<xs:enumeration value="POBox"/>
+						<xs:enumeration value="PostalMailBag"/>
+						<xs:enumeration value="PosteRestante"/>
+						<xs:enumeration value="PrivateBag"/>
+						<xs:enumeration value="RoadSideDelivery"/>
+						<xs:enumeration value="RoadSideMailService"/>
+						<xs:enumeration value="RoadsideMailBag"/>
+						<xs:enumeration value="RoadsideMailBox"/>
+						<xs:enumeration value="RuralMailBag"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="POExchange" type="xs:string"/>
+	<xs:element name="DXBox">
+		<xs:complexType mixed="true">
+			<xs:attribute name="Provider" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DXExchange" type="xs:string"/>
+	<xs:element name="NonStdAddress" type="xs:string"/>
+	<xs:element name="City" type="xs:string"/>
+	<xs:element name="Postcode" type="xs:string"/>
+	<xs:element name="DeliveryPointIdentifier" type="xs:string"/>
+	<xs:element name="Country">
+		<xs:complexType mixed="true">
+			<xs:attribute name="ISO3166" type="xs:ENTITY"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="State">
+		<xs:complexType>
+			<xs:attribute name="Name">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ACT"/>
+						<xs:enumeration value="NSW"/>
+						<xs:enumeration value="NT"/>
+						<xs:enumeration value="QLD"/>
+						<xs:enumeration value="SA"/>
+						<xs:enumeration value="TAS"/>
+						<xs:enumeration value="VIC"/>
+						<xs:enumeration value="WA"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherDescription" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Title">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Encumbrance" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="RegisteredProprietor" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="OldBook" type="xs:string"/>
+			<xs:attribute name="OldBookNumber" type="xs:string"/>
+			<xs:attribute name="TenureType">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="CommunityTitle"/>
+						<xs:enumeration value="UnitTitle"/>
+						<xs:enumeration value="StrataTitle"/>
+						<xs:enumeration value="StratumTitle"/>
+						<xs:enumeration value="CompanyTitle"/>
+						<xs:enumeration value="CrownLand"/>
+						<xs:enumeration value="CrownLease"/>
+						<xs:enumeration value="Freehold"/>
+						<xs:enumeration value="GroupTitlesPlan"/>
+						<xs:enumeration value="Leasehold"/>
+						<xs:enumeration value="MoietyTitle"/>
+						<xs:enumeration value="PurpleTitle"/>
+						<xs:enumeration value="None"/>
+						<xs:enumeration value="OtherTitle"/>
+						<xs:enumeration value="Corporate"/>
+						<xs:enumeration value="Green"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TitleType">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Company"/>
+						<xs:enumeration value="OldLaw"/>
+						<xs:enumeration value="Qualified"/>
+						<xs:enumeration value="Torrens"/>
+						<xs:enumeration value="Unregistered"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TitleClassification">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="CommunityPlan"/>
+						<xs:enumeration value="DepositedPlan"/>
+						<xs:enumeration value="Diagram"/>
+						<xs:enumeration value="Plan"/>
+						<xs:enumeration value="RegisteredPlan"/>
+						<xs:enumeration value="SectionInPlan"/>
+						<xs:enumeration value="StrataPlan"/>
+						<xs:enumeration value="StrataSurvey"/>
+						<xs:enumeration value="TownLot"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TorrensAutoConsol" type="xs:string"/>
+			<xs:attribute name="TorrensBlock" type="xs:string"/>
+			<xs:attribute name="TorrensBuildUnitPlan" type="xs:string"/>
+			<xs:attribute name="TorrensCounty" type="xs:string"/>
+			<xs:attribute name="TorrensDistrict" type="xs:string"/>
+			<xs:attribute name="TorrensDivision" type="xs:string"/>
+			<xs:attribute name="TorrensFolio" type="xs:string"/>
+			<xs:attribute name="TorrensExtent">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Whole"/>
+						<xs:enumeration value="Part"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TorrensFolioID" type="xs:string"/>
+			<xs:attribute name="TorrensInstrument" type="xs:string"/>
+			<xs:attribute name="TorrensLocation" type="xs:string"/>
+			<xs:attribute name="TorrensLot" type="xs:string"/>
+			<xs:attribute name="TorrensParcel" type="xs:string"/>
+			<xs:attribute name="TorrensPlan" type="xs:string"/>
+			<xs:attribute name="TorrensPlanType" type="xs:string"/>
+			<xs:attribute name="TorrensParish" type="xs:string"/>
+			<xs:attribute name="TorrensSection" type="xs:string"/>
+			<xs:attribute name="TorrensStrata">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TorrensTitle" type="xs:string"/>
+			<xs:attribute name="TorrensTitleRef" type="xs:string"/>
+			<xs:attribute name="TorrensRegisterBook" type="xs:string"/>
+			<xs:attribute name="TorrensUnit" type="xs:string"/>
+			<xs:attribute name="TorrensVolume" type="xs:string"/>
+			<xs:attribute name="TorrensVolumeFolio" type="xs:string"/>
+			<xs:attribute name="CompanySharesTotal" type="xs:string"/>
+			<xs:attribute name="CompanySharesFrom" type="xs:string"/>
+			<xs:attribute name="CompanySharesTo" type="xs:string"/>
+			<xs:attribute name="CompanyShareCertNumb" type="xs:string"/>
+			<xs:attribute name="CompanyName" type="xs:string"/>
+			<xs:attribute name="CompanyACN" type="xs:string"/>
+			<xs:attribute name="OldConveyRegNumb" type="xs:string"/>
+			<xs:attribute name="UnregisteredLand">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="UnregisteredPlan">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherDetails" type="xs:string"/>
+			<xs:attribute name="IsPrimaryTitle" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherTitleDescription" type="xs:string"/>
+			<xs:attribute name="OtherClassificationDescription" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StartAndEndDates">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="StartDate"/>
+				<xs:choice>
+					<xs:element ref="EndDate"/>
+					<xs:element ref="CurrentDate"/>
+				</xs:choice>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CurrentDate">
+		<xs:complexType>
+			<xs:attribute name="Current">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StartDate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Duration">
+		<xs:complexType>
+			<xs:attribute name="Length" type="xs:string"/>
+			<xs:attribute name="Units">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Months"/>
+						<xs:enumeration value="Years"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EndDate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RelatedPartySegment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RelatedParty" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RelatedParty">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier" maxOccurs="unbounded"/>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element ref="CompanyName" minOccurs="0"/>
+						<xs:element ref="PersonName" minOccurs="0"/>
+						<xs:choice>
+							<xs:element ref="Address" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="RelatedEntityRef" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element ref="WebAddress" minOccurs="0"/>
+						</xs:choice>
+					</xs:sequence>
+					<xs:element ref="Company" minOccurs="0"/>
+				</xs:choice>
+				<xs:element ref="WorkPhone" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="HomePhone" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Email" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="PreferredContactTimes" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ProfessionalInfrastructure" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="RelPartyType">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="AccessFacilitator"/>
+						<xs:enumeration value="Accountant"/>
+						<xs:enumeration value="AgentVendor"/>
+						<xs:enumeration value="Broker"/>
+						<xs:enumeration value="BrokerGroup"/>
+						<xs:enumeration value="BrokerFranchisee"/>
+						<xs:enumeration value="Builder"/>
+						<xs:enumeration value="Conveyancer"/>
+						<xs:enumeration value="CoOwner"/>
+						<xs:enumeration value="Creditor"/>
+						<xs:enumeration value="Director"/>
+						<xs:enumeration value="Employer"/>
+						<xs:enumeration value="Instructor"/>
+						<xs:enumeration value="Insurer"/>
+						<xs:enumeration value="Lawyer"/>
+						<xs:enumeration value="Lender"/>
+						<xs:enumeration value="Mortgagee"/>
+						<xs:enumeration value="MortgageManager"/>
+						<xs:enumeration value="NextOfKin"/>
+						<xs:enumeration value="Referee"/>
+						<xs:enumeration value="SettlementAgent"/>
+						<xs:enumeration value="SettlementAgentsAgent"/>
+						<xs:enumeration value="SolicitorVendor"/>
+						<xs:enumeration value="Spouse"/>
+						<xs:enumeration value="ThirdParty"/>
+						<xs:enumeration value="Valuer"/>
+						<xs:enumeration value="Vendor"/>
+						<xs:enumeration value="Other"/>
+						<xs:enumeration value="Aggregator"/>
+						<xs:enumeration value="Assignee"/>
+						<xs:enumeration value="AuthorisingValuer"/>
+						<xs:enumeration value="OwnerBuilder"/>
+						<xs:enumeration value="RealEstateAgent"/>
+						<xs:enumeration value="RegisteredOwner"/>
+						<xs:enumeration value="Tenant"/>
+						<xs:enumeration value="ServiceCentre"/>
+						<xs:enumeration value="ValuationFirm"/>
+						<xs:enumeration value="ValuationPanelManager"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RelPartyDescription" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WebAddress" type="xs:string"/>
+	<xs:element name="WorkPhone">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Phone" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="PreferredContactMethod">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Email">
+		<xs:complexType mixed="true">
+			<xs:attribute name="Type">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Home"/>
+						<xs:enumeration value="Work"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PreferredContactMethod">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Phone">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="Mobile"/>
+				<xs:element ref="FixedPhone"/>
+				<xs:element ref="Fax"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="HomePhone">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Phone" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="PreSettlement">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PostSettlement">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PreferredContactMethod">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Mobile">
+		<xs:complexType mixed="true">
+			<xs:attribute name="PreferredContactMethod">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FixedPhone">
+		<xs:complexType mixed="true">
+			<xs:attribute name="CountryCode" type="xs:string"/>
+			<xs:attribute name="AreaCode" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Fax">
+		<xs:complexType mixed="true">
+			<xs:attribute name="CountryCode" type="xs:string"/>
+			<xs:attribute name="AreaCode" type="xs:string"/>
+			<xs:attribute name="PreferredContactMethod">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FullRegistered">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="SubTypeNote" minOccurs="0"/>
+				<xs:element ref="RealEstate"/>
+				<xs:element ref="RequestDate" minOccurs="0"/>
+				<xs:element ref="DetailedComment" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="RequestedPriority" minOccurs="0"/>
+				<xs:element ref="FeeSegment"/>
+				<xs:element ref="InspectionAppointment" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:choice>
+					<xs:element ref="RequestSupportingDoc" maxOccurs="unbounded"/>
+					<xs:element ref="ResponseSupportingDoc" maxOccurs="unbounded"/>
+				</xs:choice>
+				<xs:element ref="CarAccomodation" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="BuildingModification" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ImprovementAreas" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="RiskAnalysis" minOccurs="0"/>
+				<xs:element ref="ValueComponent" minOccurs="0"/>
+				<xs:element ref="Zoning" minOccurs="0"/>
+				<xs:element ref="SiteDetailResponse" minOccurs="0"/>
+				<xs:element ref="UnitDetails" minOccurs="0"/>
+				<xs:element ref="AncillaryFeature" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="SalesMarket" minOccurs="0"/>
+				<xs:element ref="SalesEvidence" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="CompletionDetails" minOccurs="0"/>
+				<xs:element ref="ImportantNotesAndQualifications" minOccurs="0"/>
+				<xs:element ref="Disclaimer" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="LVR"/>
+			<xs:attribute name="InterestInProperty">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="CrownLeasehold"/>
+						<xs:enumeration value="FeeSimpleInPossession"/>
+						<xs:enumeration value="Lessors"/>
+						<xs:enumeration value="Lessees"/>
+						<xs:enumeration value="SharesInCompany"/>
+						<xs:enumeration value="SubjectToLongTermLease"/>
+						<xs:enumeration value="Timeshare"/>
+						<xs:enumeration value="UnitsInTrust"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ValSubType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ShortForm"/>
+						<xs:enumeration value="Standard"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ReasonFor">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ProgressDrawdown"/>
+						<xs:enumeration value="MortgageeSale"/>
+						<xs:enumeration value="Audit"/>
+						<xs:enumeration value="MaximumBorrowingCapacity"/>
+						<xs:enumeration value="ClientDischarge"/>
+						<xs:enumeration value="FairMarketValue"/>
+						<xs:enumeration value="Revaluation"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="MarketActivity">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="1-IncreasingStrongly"/>
+						<xs:enumeration value="2-Increasing"/>
+						<xs:enumeration value="3-SteadyMarket"/>
+						<xs:enumeration value="4-Slowing"/>
+						<xs:enumeration value="5-DecliningRapidly"/>
+						<xs:enumeration value="0-Unknown"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherReasonDescription"/>
+			<xs:attribute name="InterestInPropertyOtherDescription"/>
+			<xs:attribute name="PropertyTypeDescription" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProgressInspection">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="SubTypeNote" minOccurs="0"/>
+				<xs:element ref="RealEstate"/>
+				<xs:element ref="ConstructionProgress"/>
+				<xs:element ref="DetailedComment" maxOccurs="unbounded"/>
+				<xs:element ref="RequestedPriority" minOccurs="0"/>
+				<xs:element ref="FeeSegment"/>
+				<xs:element ref="InspectionAppointment" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:choice>
+					<xs:element ref="RequestSupportingDoc" maxOccurs="unbounded"/>
+					<xs:element ref="ResponseSupportingDoc" maxOccurs="unbounded"/>
+				</xs:choice>
+				<xs:element ref="ProgressCompletionDetails" minOccurs="0"/>
+				<xs:element ref="ImportantNotesAndQualifications" minOccurs="0"/>
+				<xs:element ref="Disclaimer" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="InterestInProperty" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="CrownLeasehold"/>
+						<xs:enumeration value="FeeSimpleInPossession"/>
+						<xs:enumeration value="Lessors"/>
+						<xs:enumeration value="Lessees"/>
+						<xs:enumeration value="SharesInCompany"/>
+						<xs:enumeration value="SubjectToLongTermLease"/>
+						<xs:enumeration value="Timeshare"/>
+						<xs:enumeration value="UnitsInTrust"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ValSubType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ShortForm"/>
+						<xs:enumeration value="Standard"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ReasonFor" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ProgressDrawdown"/>
+						<xs:enumeration value="MortgageeSale"/>
+						<xs:enumeration value="Audit"/>
+						<xs:enumeration value="MaximumBorrowingCapacity"/>
+						<xs:enumeration value="ClientDischarge"/>
+						<xs:enumeration value="FairMarketValue"/>
+						<xs:enumeration value="Revaluation"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="InspectionNumber" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="01"/>
+						<xs:enumeration value="02"/>
+						<xs:enumeration value="03"/>
+						<xs:enumeration value="04"/>
+						<xs:enumeration value="05"/>
+						<xs:enumeration value="06"/>
+						<xs:enumeration value="07"/>
+						<xs:enumeration value="08"/>
+						<xs:enumeration value="09"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherReasonDescription"/>
+			<xs:attribute name="InterestInPropertyOtherDescription"/>
+			<xs:attribute name="PropertyTypeDescription" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RestrictedAccessAssessment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="SubTypeNote" minOccurs="0"/>
+				<xs:element ref="RealEstate"/>
+				<xs:element ref="PropertyCharacteristics" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="AncillaryFeature" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="CarAccomodation" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ImprovementAreas" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Zoning"/>
+				<xs:element ref="DetailedComment" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="RequestedPriority" minOccurs="0"/>
+				<xs:element ref="RequestDate" minOccurs="0"/>
+				<xs:element ref="FeeSegment"/>
+				<xs:choice>
+					<xs:element ref="RequestSupportingDoc" maxOccurs="unbounded"/>
+					<xs:element ref="ResponseSupportingDoc" maxOccurs="unbounded"/>
+				</xs:choice>
+				<xs:element ref="RiskAnalysis" minOccurs="0"/>
+				<xs:element ref="MarketValueAsIfComplete" minOccurs="0"/>
+				<xs:element ref="SalesMarket" minOccurs="0"/>
+				<xs:element ref="SalesEvidence" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="CompletionDetails" minOccurs="0"/>
+				<xs:element ref="ImportantNotesAndQualifications" minOccurs="0"/>
+				<xs:element ref="Disclaimer" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="InterestInProperty" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="CrownLeasehold"/>
+						<xs:enumeration value="FeeSimpleInPossession"/>
+						<xs:enumeration value="Lessors"/>
+						<xs:enumeration value="Lessees"/>
+						<xs:enumeration value="SharesInCompany"/>
+						<xs:enumeration value="SubjectToLongTermLease"/>
+						<xs:enumeration value="Timeshare"/>
+						<xs:enumeration value="UnitsInTrust"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ValSubType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ShortForm"/>
+						<xs:enumeration value="Standard"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ReasonFor" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ProgressDrawdown"/>
+						<xs:enumeration value="MortgageeSale"/>
+						<xs:enumeration value="Audit"/>
+						<xs:enumeration value="MaximumBorrowingCapacity"/>
+						<xs:enumeration value="ClientDischarge"/>
+						<xs:enumeration value="FairMarketValue"/>
+						<xs:enumeration value="Revaluation"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ResultRequired" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="SinglePoint"/>
+						<xs:enumeration value="Range"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherReasonDescription"/>
+			<xs:attribute name="InterestInPropertyOtherDescription"/>
+			<xs:attribute name="PropertyTypeDescription" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Costing">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="SubTypeNote" minOccurs="0"/>
+				<xs:element ref="RealEstate"/>
+				<xs:element ref="BuildingModification" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="DetailedComment" maxOccurs="unbounded"/>
+				<xs:element ref="RequestedPriority" minOccurs="0"/>
+				<xs:element ref="RequestDate" minOccurs="0"/>
+				<xs:element ref="FeeSegment"/>
+				<xs:element ref="Construction" maxOccurs="unbounded"/>
+				<xs:choice>
+					<xs:element ref="RequestSupportingDoc" maxOccurs="unbounded"/>
+					<xs:element ref="ResponseSupportingDoc" maxOccurs="unbounded"/>
+				</xs:choice>
+				<xs:element ref="CompletionDetails" minOccurs="0"/>
+				<xs:element ref="ImportantNotesAndQualifications" minOccurs="0"/>
+				<xs:element ref="Disclaimer" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="ValSubType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ShortForm"/>
+						<xs:enumeration value="Standard"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ReasonFor">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ProgressDrawdown"/>
+						<xs:enumeration value="MortgageeSale"/>
+						<xs:enumeration value="Audit"/>
+						<xs:enumeration value="MaximumBorrowingCapacity"/>
+						<xs:enumeration value="ClientDischarge"/>
+						<xs:enumeration value="FairMarketValue"/>
+						<xs:enumeration value="Revaluation"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherReasonDescription"/>
+			<xs:attribute name="PropertyTypeDescription" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WorkFlow">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ExpectedValuationDate" minOccurs="0"/>
+				<xs:element ref="ActualInspectionDate" minOccurs="0"/>
+				<xs:element ref="DateOfInspection" minOccurs="0"/>
+				<xs:element ref="Comment" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:choice>
+					<xs:element ref="RequestSupportingDoc" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="ResponseSupportingDoc" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="Type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="FeeNegotiation"/>
+						<xs:enumeration value="Notification"/>
+						<xs:enumeration value="Status"/>
+						<xs:enumeration value="StatusInquiry"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="FeeNegotiationStatus">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Accepted"/>
+						<xs:enumeration value="Cancelled"/>
+						<xs:enumeration value="Rejected"/>
+						<xs:enumeration value="Requested"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DelayReason">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="IncorrectContactDetails"/>
+						<xs:enumeration value="AtCustomersRequest"/>
+						<xs:enumeration value="TenantDeniedAccess"/>
+						<xs:enumeration value="IsolatedLocation"/>
+						<xs:enumeration value="IncorrectAccessDetails"/>
+						<xs:enumeration value="WaitingForCall"/>
+						<xs:enumeration value="WaitingForAgent"/>
+						<xs:enumeration value="AwaitingAuthorisation"/>
+						<xs:enumeration value="AwaitingBuildingInformation"/>
+						<xs:enumeration value="AwaitingFeeChange"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="FromStatus">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Instructed"/>
+						<xs:enumeration value="Accepted"/>
+						<xs:enumeration value="Assigned"/>
+						<xs:enumeration value="Delayed"/>
+						<xs:enumeration value="InProgress"/>
+						<xs:enumeration value="Inspected"/>
+						<xs:enumeration value="ValuationCompleted"/>
+						<xs:enumeration value="AwaitingAuthorisation"/>
+						<xs:enumeration value="Finalised"/>
+						<xs:enumeration value="AmendmentRequired"/>
+						<xs:enumeration value="Cancelled"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OldFeeAmount" type="xs:string"/>
+			<xs:attribute name="NewFeeAmount" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ReturnDeliveryMethod">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Comment" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Email" minOccurs="0"/>
+				<xs:element ref="Fax" minOccurs="0"/>
+				<xs:element ref="NonStdAddress" minOccurs="0"/>
+				<xs:element ref="DXBox" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="Method" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Fax"/>
+						<xs:enumeration value="Email"/>
+						<xs:enumeration value="LixiAttachment"/>
+						<xs:enumeration value="Mail"/>
+						<xs:enumeration value="DX"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DeliveryPriority" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="High"/>
+						<xs:enumeration value="Normal"/>
+						<xs:enumeration value="Low"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ResponseDeliveryMethod">
+		<xs:complexType>
+			<xs:attribute name="Method" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="LixiAttachment"/>
+						<xs:enumeration value="Email"/>
+						<xs:enumeration value="Fax"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Comment" type="xs:string"/>
+	<xs:element name="Encumbrance">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date" minOccurs="0"/>
+				<xs:element ref="RelatedEntityRef" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Comment" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="Description" type="xs:string" use="required"/>
+			<xs:attribute name="RegisteredNumber" type="xs:string"/>
+			<xs:attribute name="EncumbranceType">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Mortgage"/>
+						<xs:enumeration value="Caveat"/>
+						<xs:enumeration value="Covenant"/>
+						<xs:enumeration value="Easement"/>
+						<xs:enumeration value="Warrant"/>
+						<xs:enumeration value="NotKnown"/>
+						<xs:enumeration value="NoneDisclosed"/>
+						<xs:enumeration value="FiFa"/>
+						<xs:enumeration value="Memorial"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="EncumbranceAffectsValue" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RegisteredProprietor">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="RelatedEntityRef" maxOccurs="unbounded"/>
+				<xs:sequence>
+					<xs:element ref="PersonName"/>
+					<xs:element ref="Address" minOccurs="0"/>
+				</xs:sequence>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SubTypeNote" type="xs:string"/>
+	<xs:element name="Description" type="xs:string"/>
+	<xs:element name="InspectionAppointment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RequestedPriority">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="Indicator" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="High"/>
+						<xs:enumeration value="Normal"/>
+						<xs:enumeration value="Low"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DetailedComment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:sequence>
+						<xs:element ref="RelatedEntityRef"/>
+						<xs:element ref="LogItem" minOccurs="0"/>
+					</xs:sequence>
+					<xs:element ref="LogItem" minOccurs="0"/>
+				</xs:choice>
+				<xs:element ref="Comment"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="LogItem">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time"/>
+			</xs:sequence>
+			<xs:attribute name="Description">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Created"/>
+						<xs:enumeration value="Modified"/>
+						<xs:enumeration value="Archived"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="FeeSegment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Fee" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Fee">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Amount" type="xs:string" use="required"/>
+			<xs:attribute name="Description" type="xs:string"/>
+			<xs:attribute name="PayableTo" type="xs:string"/>
+			<xs:attribute name="ReceivedToDate" type="xs:string"/>
+			<xs:attribute name="Type">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Origination"/>
+						<xs:enumeration value="Settlement"/>
+						<xs:enumeration value="Product"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="WhenPayable">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="OnApplication"/>
+						<xs:enumeration value="BeforeSettlement"/>
+						<xs:enumeration value="AtSettlement"/>
+						<xs:enumeration value="AtOrBeforeSettlement"/>
+						<xs:enumeration value="AfterSettlement"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Class" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Lender"/>
+						<xs:enumeration value="Government"/>
+						<xs:enumeration value="Other"/>
+						<xs:enumeration value="Valuer"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="IsFeeContracted">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RequestSupportingDoc">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier"/>
+				<xs:element ref="ReturnDeliveryMethod" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Description" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="DocType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="BillofQuantities"/>
+						<xs:enumeration value="Brochure"/>
+						<xs:enumeration value="BuildingCertification"/>
+						<xs:enumeration value="BuildingContract"/>
+						<xs:enumeration value="BuildingSpecification"/>
+						<xs:enumeration value="Contract"/>
+						<xs:enumeration value="DevelopmentApproval"/>
+						<xs:enumeration value="GeoTechnicalReport"/>
+						<xs:enumeration value="Image"/>
+						<xs:enumeration value="LeaseProfile"/>
+						<xs:enumeration value="Other"/>
+						<xs:enumeration value="Pest"/>
+						<xs:enumeration value="PlanOfSubdivision"/>
+						<xs:enumeration value="Plans"/>
+						<xs:enumeration value="PreviousValuation"/>
+						<xs:enumeration value="ProgressPaymentSchedule"/>
+						<xs:enumeration value="Report"/>
+						<xs:enumeration value="TitleSearch"/>
+						<xs:enumeration value="ZoningCertificate"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ResponderToReturnDoc" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RequestorIncludedDoc" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ResponseSupportingDoc">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier"/>
+				<xs:element ref="ResponseDeliveryMethod" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Description" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="DocType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="BillofQuantities"/>
+						<xs:enumeration value="Brochure"/>
+						<xs:enumeration value="BuildingCertification"/>
+						<xs:enumeration value="BuildingContract"/>
+						<xs:enumeration value="BuildingSpecification"/>
+						<xs:enumeration value="Contract"/>
+						<xs:enumeration value="DevelopmentApproval"/>
+						<xs:enumeration value="GeoTechnicalReport"/>
+						<xs:enumeration value="Image"/>
+						<xs:enumeration value="LeaseProfile"/>
+						<xs:enumeration value="Other"/>
+						<xs:enumeration value="Pest"/>
+						<xs:enumeration value="PlanOfSubdivision"/>
+						<xs:enumeration value="Plans"/>
+						<xs:enumeration value="PreviousValuation"/>
+						<xs:enumeration value="ProgressPaymentSchedule"/>
+						<xs:enumeration value="Report"/>
+						<xs:enumeration value="TitleSearch"/>
+						<xs:enumeration value="ZoningCertificate"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="DocAttached" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RequestorToSight" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PreferredContactTimes">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time"/>
+			</xs:sequence>
+			<xs:attribute name="IsPreferredTime" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="OverseasState">
+		<xs:complexType>
+			<xs:attribute name="Name" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ConstructionProgress">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ProgressPaymentDue" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Stage" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="SlabLaid"/>
+						<xs:enumeration value="WallsErected"/>
+						<xs:enumeration value="LockDownAkaLockUp"/>
+						<xs:enumeration value="Fixing"/>
+						<xs:enumeration value="Final"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="PerCentCompleted"/>
+			<xs:attribute name="FundsRqdThisStage" use="required"/>
+			<xs:attribute name="FundsAlreadyAdvanced" use="required"/>
+			<xs:attribute name="ContractAmount" use="required"/>
+			<xs:attribute name="PostContractVarAmount" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProgressPaymentDue">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PropertyCharacteristics">
+		<xs:complexType>
+			<xs:attribute name="ActualWeeklyUnfRental"/>
+			<xs:attribute name="ActualWeeklyRental"/>
+			<xs:attribute name="ArchitecturalStyle"/>
+			<xs:attribute name="CableTV">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="CurrentUse" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Residential"/>
+						<xs:enumeration value="Non-Residential"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="EssentialRepairs"/>
+			<xs:attribute name="ExternalCondition" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Unknown"/>
+						<xs:enumeration value="Excellent"/>
+						<xs:enumeration value="VeryGood"/>
+						<xs:enumeration value="Good"/>
+						<xs:enumeration value="Fair"/>
+						<xs:enumeration value="Poor"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="FixturesAndFittings" type="xs:string"/>
+			<xs:attribute name="FloorConstructionMaterial"/>
+			<xs:attribute name="Gas">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="InternalCondition">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Unknown"/>
+						<xs:enumeration value="Excellent"/>
+						<xs:enumeration value="VeryGood"/>
+						<xs:enumeration value="Good"/>
+						<xs:enumeration value="Fair"/>
+						<xs:enumeration value="Poor"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="InternalLayout">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Unknown"/>
+						<xs:enumeration value="Excellent"/>
+						<xs:enumeration value="VeryGood"/>
+						<xs:enumeration value="Good"/>
+						<xs:enumeration value="Fair"/>
+						<xs:enumeration value="Poor"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="KerbsAndGutters">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="LPGas">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="MainBuilding" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="MainBuildingComment"/>
+			<xs:attribute name="MainWallType"/>
+			<xs:attribute name="MainInteriorLinings"/>
+			<xs:attribute name="MineSubsidence" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="NumberOfBathrooms"/>
+			<xs:attribute name="NumberOfBedrooms"/>
+			<xs:attribute name="NumberOfDiningRooms"/>
+			<xs:attribute name="NumberOfFloors"/>
+			<xs:attribute name="NumberOfLivingRooms"/>
+			<xs:attribute name="NumberOfKitchens"/>
+			<xs:attribute name="NumberOfOtherRooms"/>
+			<xs:attribute name="NumberOfRumpusRooms"/>
+			<xs:attribute name="OtherServicesDescription" type="xs:string"/>
+			<xs:attribute name="PCItems" type="xs:string"/>
+			<xs:attribute name="Power">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RoofConstructionMaterial"/>
+			<xs:attribute name="SealedRoad">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SepticWater">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SiteArea" type="xs:string"/>
+			<xs:attribute name="SiteAreaUnits">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="SquareMeters"/>
+						<xs:enumeration value="Hectares"/>
+						<xs:enumeration value="Acres"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Sewerage">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="StreetAppeal">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Unknown"/>
+						<xs:enumeration value="Excellent"/>
+						<xs:enumeration value="VeryGood"/>
+						<xs:enumeration value="Good"/>
+						<xs:enumeration value="Fair"/>
+						<xs:enumeration value="Poor"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TankWater">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Telephone">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TownWater">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="VisibleFromKerb">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="WasteTreatmentSystem">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="WindowFrames"/>
+			<xs:attribute name="YearBuilt" type="xs:string"/>
+			<xs:attribute name="YearBuiltIndicator">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="BuiltAbout"/>
+						<xs:enumeration value="ToBeErected"/>
+						<xs:enumeration value="YearBuilt"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="YearModified" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CarAccomodation">
+		<xs:complexType mixed="true">
+			<xs:attribute name="CarArea"/>
+			<xs:attribute name="CarAreaUnits">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="SquareMetres"/>
+						<xs:enumeration value="Hectares"/>
+						<xs:enumeration value="Acres"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="NumberOfVehicles"/>
+			<xs:attribute name="AccomodationType">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="CarBayCarpark"/>
+						<xs:enumeration value="CarBayOpen"/>
+						<xs:enumeration value="Carport"/>
+						<xs:enumeration value="Garage"/>
+						<xs:enumeration value="OffStreetParking"/>
+						<xs:enumeration value="YardAccess"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherDescription"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Construction">
+		<xs:complexType>
+			<xs:attribute name="ConstructionBasis" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Contractor"/>
+						<xs:enumeration value="Other"/>
+						<xs:enumeration value="OwnerBuilder"/>
+						<xs:enumeration value="RegisteredBuilder"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ProjectCost"/>
+			<xs:attribute name="FundsAvaialble"/>
+			<xs:attribute name="ConsBasisOtherDescription"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ExpectedValuationDate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ActualInspectionDate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProfessionalInfrastructure">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Insurance" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Accreditation" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="Accounting" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="BusinessType">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Company"/>
+						<xs:enumeration value="Cooperative"/>
+						<xs:enumeration value="IncorporatedAssociation"/>
+						<xs:enumeration value="Partnership"/>
+						<xs:enumeration value="SoleTrader"/>
+						<xs:enumeration value="TradingTrust"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Insurance">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:choice>
+					<xs:element ref="RelatedEntityRef"/>
+					<xs:element ref="CompanyName"/>
+				</xs:choice>
+				<xs:element ref="InsuranceEffectiveDate"/>
+				<xs:element ref="InsuranceExpiryDate"/>
+				<xs:element ref="InsuranceExclusion" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Category">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Professional"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="InsuranceType">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="EmployersLiability"/>
+						<xs:enumeration value="ProfessionalIndemnity"/>
+						<xs:enumeration value="ProfessionalLiability"/>
+						<xs:enumeration value="PublicLiability"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="InsuredAmount" type="xs:string"/>
+			<xs:attribute name="PolicyNumber" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InsuranceEffectiveDate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InsuranceExpiryDate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InsuranceExclusion">
+		<xs:complexType mixed="true"/>
+	</xs:element>
+	<xs:element name="Accreditation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier"/>
+				<xs:element ref="Description" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="Type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Licence"/>
+						<xs:enumeration value="Certificate"/>
+						<xs:enumeration value="Membership"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="AccreditationID" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Accounting">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier"/>
+				<xs:element ref="CostCentre"/>
+			</xs:sequence>
+			<xs:attribute name="Type">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Inhouse"/>
+						<xs:enumeration value="Outsourced"/>
+						<xs:enumeration value="RCTI"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CostCentre">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Description"/>
+				<xs:element ref="ContactDetails" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="RelatedEntityRef" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="Code" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AttachmentSegment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Attachment" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Attachment">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier" minOccurs="0"/>
+				<xs:element ref="RelatedEntityRef" minOccurs="0"/>
+				<xs:element ref="InlineAttachment" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="SourceDomain" type="xs:string"/>
+			<xs:attribute name="Filename" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="InlineAttachment" type="xs:base64Binary"/>
+	<xs:element name="RequestDate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuildingModification">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier"/>
+				<xs:element ref="Description" minOccurs="0"/>
+				<xs:element ref="RelatedEntityRef" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="ContractDate" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="Type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Extension"/>
+						<xs:enumeration value="Renovation"/>
+						<xs:enumeration value="ToBeErected"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="CheckCost">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="CheckCostRate" type="xs:string"/>
+			<xs:attribute name="TenderPrice" type="xs:string"/>
+			<xs:attribute name="FixturesAndFittings" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ContractDate">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ImprovementAreas">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier"/>
+				<xs:element ref="SiteArea"/>
+				<xs:element ref="Description"/>
+			</xs:sequence>
+			<xs:attribute name="AreaType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Outdoor"/>
+						<xs:enumeration value="Living"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SiteArea">
+		<xs:complexType>
+			<xs:attribute name="Size" type="xs:string"/>
+			<xs:attribute name="UnitOfMeasurement">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="SquareMeters"/>
+						<xs:enumeration value="Hectares"/>
+						<xs:enumeration value="Acres"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RiskAnalysis">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RiskRating" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="EnvironmentIssues" type="xs:string"/>
+			<xs:attribute name="HeritageIssue" type="xs:string"/>
+			<xs:attribute name="Marketability" type="xs:string"/>
+			<xs:attribute name="OverallRiskAnalysis" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RiskRating">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier"/>
+				<xs:element ref="Comment"/>
+			</xs:sequence>
+			<xs:attribute name="RatingType" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="LocationNeighbourhood"/>
+						<xs:enumeration value="Land"/>
+						<xs:enumeration value="Improvements"/>
+						<xs:enumeration value="Environmental"/>
+						<xs:enumeration value="MarketSegment"/>
+						<xs:enumeration value="RecentMarketDirection"/>
+						<xs:enumeration value="LocalEconomy"/>
+						<xs:enumeration value="MarketVolatility"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Rating" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="0-NotKnown"/>
+						<xs:enumeration value="1-Low"/>
+						<xs:enumeration value="2-LowToMedium"/>
+						<xs:enumeration value="3-Medium"/>
+						<xs:enumeration value="4-MediumToHigh"/>
+						<xs:enumeration value="5-High"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ValueComponent">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="MarketValueAsIfComplete" minOccurs="0"/>
+				<xs:element ref="EstimatedSettlement"/>
+				<xs:element ref="Comment"/>
+			</xs:sequence>
+			<xs:attribute name="LandValue" use="required"/>
+			<xs:attribute name="ImprovementsValue"/>
+			<xs:attribute name="OtherValue"/>
+			<xs:attribute name="OtherValueDescription" type="xs:string"/>
+			<xs:attribute name="LikelyWeeklyUnfRental"/>
+			<xs:attribute name="InsuranceAssessment"/>
+			<xs:attribute name="RequiresRecommendation">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RecommendedSecurity">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="RecommendationReason" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EstimatedSettlement">
+		<xs:complexType>
+			<xs:choice>
+				<xs:element ref="Date"/>
+				<xs:element ref="Duration"/>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Zoning">
+		<xs:complexType>
+			<xs:attribute name="ZoningType">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Residential"/>
+						<xs:enumeration value="Commercial"/>
+						<xs:enumeration value="CommercialResidential"/>
+						<xs:enumeration value="Rural"/>
+						<xs:enumeration value="RuralResidential"/>
+						<xs:enumeration value="ShortStayAccommodation"/>
+						<xs:enumeration value="Urban"/>
+						<xs:enumeration value="Other"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherDescription" type="xs:string"/>
+			<xs:attribute name="ZoningCategory" type="xs:string"/>
+			<xs:attribute name="LocalGovtAuthority" type="xs:string"/>
+			<xs:attribute name="ZoningEffect" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SiteDetailResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier" minOccurs="0"/>
+				<xs:element ref="SiteDimensions" minOccurs="0"/>
+				<xs:element ref="SiteArea"/>
+				<xs:element ref="Locality" minOccurs="0"/>
+				<xs:element ref="Neighbourhood" minOccurs="0"/>
+				<xs:element ref="SiteDescription" minOccurs="0"/>
+				<xs:element ref="DetailedComment" minOccurs="0"/>
+				<xs:element ref="Comment" minOccurs="0"/>
+				<xs:element ref="PropertyCharacteristics" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="TitleSighted">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="TitleSearched">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SiteDescription">
+		<xs:complexType mixed="true">
+			<xs:attribute name="CurrentUse" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Residential"/>
+						<xs:enumeration value="Non-Residential"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ElevationPerStreetLevel" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Above"/>
+						<xs:enumeration value="Below"/>
+						<xs:enumeration value="Level"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="SiteDimensions">
+		<xs:complexType>
+			<xs:attribute name="Frontage" use="required"/>
+			<xs:attribute name="Depth"/>
+			<xs:attribute name="UnitOfMeasurement" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="LinearMetres"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="IrregularShape" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="Description" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="UnitDetails">
+		<xs:complexType>
+			<xs:attribute name="TotalUnitsInDevelopment" use="required"/>
+			<xs:attribute name="SubjectUnitEntitlement" use="required"/>
+			<xs:attribute name="TotalUnitEntitlement" use="required"/>
+			<xs:attribute name="NumLevelsInDevelopment" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="AncillaryFeature" type="xs:string"/>
+	<xs:element name="SalesEvidence">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Location"/>
+				<xs:element ref="Date"/>
+				<xs:choice>
+					<xs:element ref="DetailedComment" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="Comment" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="SalePrice" type="xs:string" use="required"/>
+			<xs:attribute name="PropertySaleType">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="ThisProperty"/>
+						<xs:enumeration value="SimilarProperty"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OverallComparability">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Superior"/>
+						<xs:enumeration value="Inferior"/>
+						<xs:enumeration value="Comparable"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="LandComparability">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Superior"/>
+						<xs:enumeration value="Inferior"/>
+						<xs:enumeration value="Comparable"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ImprovementsComparability">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Superior"/>
+						<xs:enumeration value="Inferior"/>
+						<xs:enumeration value="Comparable"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="LocationComparability">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Superior"/>
+						<xs:enumeration value="Inferior"/>
+						<xs:enumeration value="Comparable"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ConditionComparability">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Superior"/>
+						<xs:enumeration value="Inferior"/>
+						<xs:enumeration value="Comparable"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SaleEvidenceSource">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Agent"/>
+						<xs:enumeration value="OtherValuer"/>
+						<xs:enumeration value="Contractor"/>
+						<xs:enumeration value="StatutoryRecords"/>
+						<xs:enumeration value="CommercialProvider"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="OtherSimilarity" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CompletionDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ValuationValidFrom"/>
+				<xs:element ref="DateOfInspection"/>
+				<xs:element ref="Locality" minOccurs="0"/>
+				<xs:element ref="Neighbourhood" minOccurs="0"/>
+				<xs:element ref="MarketValueAsIfComplete" minOccurs="0"/>
+				<xs:element ref="CostingComments" minOccurs="0"/>
+				<xs:element ref="Comment" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="LendersCaution">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="LendersCautionComment" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ValuationValidFrom">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DateOfInspection">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Time" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Locality">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Amenity" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Amenity">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Identifier"/>
+				<xs:element ref="Description"/>
+				<xs:element ref="DistanceFromProperty"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="DistanceFromProperty">
+		<xs:complexType>
+			<xs:attribute name="DistanceInKlms" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="1"/>
+						<xs:enumeration value="2"/>
+						<xs:enumeration value="3"/>
+						<xs:enumeration value="4"/>
+						<xs:enumeration value="5"/>
+						<xs:enumeration value="6"/>
+						<xs:enumeration value="7"/>
+						<xs:enumeration value="8"/>
+						<xs:enumeration value="9"/>
+						<xs:enumeration value="10"/>
+						<xs:enumeration value="11-20"/>
+						<xs:enumeration value="21-30"/>
+						<xs:enumeration value="31-40"/>
+						<xs:enumeration value="41-50"/>
+						<xs:enumeration value="Over50"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Neighbourhood" type="xs:string"/>
+	<xs:element name="MarketValueAsIfComplete">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Description"/>
+			</xs:sequence>
+			<xs:attribute name="Type" use="required">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKEN">
+						<xs:enumeration value="Range"/>
+						<xs:enumeration value="SinglePoint"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ValueFloor"/>
+			<xs:attribute name="ValueCeiling" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="CostingComments">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="BuildersTender" minOccurs="0"/>
+				<xs:element ref="ValuersCostEstimate" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="ProposedDevelopment" type="xs:string"/>
+			<xs:attribute name="DocumentsCosted" type="xs:string"/>
+			<xs:attribute name="ConstructionComments" type="xs:string"/>
+			<xs:attribute name="CostingStatus" type="xs:string"/>
+			<xs:attribute name="ProjectViability" type="xs:string"/>
+			<xs:attribute name="DurationStatus" type="xs:string"/>
+			<xs:attribute name="ContractAgreement" type="xs:string"/>
+			<xs:attribute name="BuilderAndCustomerDocStatus" type="xs:string"/>
+			<xs:attribute name="ConstructionFeasibility" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BuildersTender">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RelatedEntityRef" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="TenderAmount" type="xs:string" use="required"/>
+			<xs:attribute name="GSTAmount" type="xs:string" use="required"/>
+			<xs:attribute name="FreightAmount" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ValuersCostEstimate">
+		<xs:complexType>
+			<xs:attribute name="ConstructionAmount" type="xs:string" use="required"/>
+			<xs:attribute name="GSTAmount" type="xs:string" use="required"/>
+			<xs:attribute name="FreightAmount" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ProgressCompletionDetails">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ValuationValidFrom"/>
+				<xs:element ref="DateOfInspection"/>
+				<xs:element ref="Comment" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="CostToComplete" type="xs:string" use="required"/>
+			<xs:attribute name="CostToDate" type="xs:string" use="required"/>
+			<xs:attribute name="RecommendedProgressPayment" type="xs:string" use="required"/>
+			<xs:attribute name="LendersCautionComment" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Disclaimer" type="xs:string"/>
+	<xs:element name="SalesMarket">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="RecentSale" minOccurs="0"/>
+				<xs:element ref="EarlierSale" minOccurs="0"/>
+				<xs:element name="ExpectedSellingPeriodComment" minOccurs="0"/>
+				<xs:element name="ContractSightedComment" minOccurs="0"/>
+				<xs:element ref="Comment" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="MarketActivity" type="xs:string" use="optional"/>
+			<xs:attribute name="SaleInlineWithLocalMarket">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKENS">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="SaleInlineWithLocalMarketComment" type="xs:string"/>
+			<xs:attribute name="ExpectedSellingPeriod">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKENS">
+						<xs:enumeration value="Less than 6 months"/>
+						<xs:enumeration value="6 to 12 months"/>
+						<xs:enumeration value="Greater than 12 months"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="ContractSighted">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKENS">
+						<xs:enumeration value="Yes"/>
+						<xs:enumeration value="No"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EarlierSale">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date"/>
+				<xs:element ref="Comment"/>
+			</xs:sequence>
+			<xs:attribute name="SalePrice" type="xs:decimal"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="RecentSale">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="Date" minOccurs="0"/>
+				<xs:element ref="Comment"/>
+			</xs:sequence>
+			<xs:attribute name="SalePrice" type="xs:decimal"/>
+			<xs:attribute name="IsContract">
+				<xs:simpleType>
+					<xs:restriction base="xs:NMTOKENS">
+						<xs:enumeration value="No"/>
+						<xs:enumeration value="Yes"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ImportantNotesAndQualifications" type="xs:string"/>
+</xs:schema>
