@@ -4,7 +4,7 @@ from spyne.server.wsgi import WsgiApplication
 from spyne.interface.wsdl.wsdl11 import Wsdl11
 from spyne.model.complex import ComplexModel, ComplexModelBase
 
-from validators import auth, message
+from validators.valuation_message import authorized, valid_message
 
 
 class AuthHeader(ComplexModel):
@@ -28,17 +28,22 @@ schema = './files/ValuationTransaction_1_6.xsd'
 
 def validate_message(username, password, valuation_message):
     try:
-        if not auth.authorized(username, password):
-            raise error.InvalidCredentialsError()
-        if not message.validate(valuation_message, schema):
-            raise error.InvalidRequestError()
-    except :
-        raise error.InvalidInputError()
+        if not authorized(username, password):
+            raise error.Fault(
+                faultcode='Client', faultstring='Unable to process request. UserName or Password is incorrect.')
+    except ValueError:
+        raise error.Fault(faultcode='Client', faultstring='Unable to process request. No authorisation provided.')
+
+    try:
+        if not valid_message(valuation_message, schema):
+            raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
+    except AttributeError:
+        raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
 
 
 application = Application([ABValuations], 'lixi.ab.valuations.services',
                           in_protocol=Soap11(validator='lxml'),
-                          out_protocol=Soap11(polymorphic=True))
+                          out_protocol=Soap11())
 
 wsgi_application = WsgiApplication(application)
 
@@ -48,8 +53,8 @@ if __name__ == '__main__':
 
     from wsgiref.simple_server import make_server
 
-    logging.basicConfig(level=logging.DEBUG)
-    logging.getLogger('spyne.protocol.xml').setLevel(logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
+    logging.getLogger('spyne.protocol.xml').setLevel(logging.INFO)
     logging.info("listening to http://127.0.0.1:8000")
     logging.info("wsdl is at: http://localhost:8000/?wsdl")
 

@@ -1,6 +1,6 @@
 import unittest
 
-from validators.auth import authorized
+from validators.valuation_message import authorized
 
 
 class TestAuth(unittest.TestCase):

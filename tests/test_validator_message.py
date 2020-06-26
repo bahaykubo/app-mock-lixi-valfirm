@@ -1,7 +1,8 @@
 import unittest
 from lxml import etree
 from io import StringIO
-from validators.message import validate
+
+from validators.valuation_message import valid_message
 
 
 class TesMessage(unittest.TestCase):
@@ -10,38 +11,40 @@ class TesMessage(unittest.TestCase):
         self.schema = './files/ValuationTransaction_1_6.xsd'
 
     def test_message_returns_true(self):
-        xml_doc = etree.parse('./files/valid_message.xml')
-        xml = etree.XMLParser(xml_doc)
-        result = validate(xml, self.schema)
+        with open('./files/valid_message.xml', 'r') as file:
+            xml_string = file.read()
+        xml = etree.fromstring(xml_string)
+        result = valid_message(xml, self.schema)
         assert result is True
 
     def test_invalid_valuation_message_returns_false(self):
-        invalid_xml = '<xml>invalid</xml>'
-        result = validate(invalid_xml, self.schema)
+        invalid_xml = etree.fromstring('<xml>invalid</xml>')
+        result = valid_message(invalid_xml, self.schema)
         assert result is False
 
     def test_empty_valuation_message_raises_value_error(self):
         try:
-            result = validate(None, self.schema)
+            result = valid_message(None, self.schema)
         except ValueError:
             assert True
         else:
             assert False
 
-    def test_non_string_type_message_returns_false(self):
+    def test_incorrect_type_message_returns_false(self):
         try:
             xml_doc = etree.parse('./files/valid_message.xml')
-            result = validate(xml_doc, self.schema)
-        except ValueError:
+            result = valid_message(xml_doc, self.schema)
+        except TypeError:
             assert True
         else:
             assert False
 
     def test_no_schema_raises_type_error(self):
         try:
-            # xml_doc = etree.parse('./files/valid_message.xml')
-            xml = etree.tostring(StringIO('./files/valid_message.xml'))
-            result = validate(xml, None)
+            with open('./files/valid_message.xml', 'r') as file:
+                xml_string = file.read()
+            xml = etree.fromstring(xml_string)
+            result = valid_message(xml, None)
         except TypeError:
             assert True
         else:
