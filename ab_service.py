@@ -1,8 +1,7 @@
-from spyne import Application, rpc, Service, Iterable, Integer, Unicode, String, error, AnyXml
+from spyne import Application, rpc, Service, Unicode, error, AnyXml
 from spyne.protocol.soap import Soap11
 from spyne.server.wsgi import WsgiApplication
-from spyne.interface.wsdl.wsdl11 import Wsdl11
-from spyne.model.complex import ComplexModel, ComplexModelBase
+from spyne.model.complex import ComplexModel
 
 from validators.valuation_message import authorized, valid_message
 
