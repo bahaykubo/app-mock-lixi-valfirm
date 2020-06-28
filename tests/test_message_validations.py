@@ -1,6 +1,5 @@
 import unittest
 from lxml import etree
-from io import StringIO
 
 from lixi_mock_valfirm_service.service.validators.valuation_message import authorized, valid_message
 
@@ -43,6 +42,10 @@ class TestAuthorisation(unittest.TestCase):
         result = authorized('abvaluations', 'incorrect')
         assert result is False
 
+    def test_incorrect_username_password_returns_false(self):
+        result = authorized('incorrect', 'incorrect')
+        assert result is False
+
 
 class TesXMLMessage(unittest.TestCase):
 
@@ -54,7 +57,7 @@ class TesXMLMessage(unittest.TestCase):
             xml_string = file.read()
         xml = etree.fromstring(xml_string)
         result = valid_message(xml, self.schema)
-        assert result is True
+        assert result
 
     def test_invalid_valuation_message_returns_false(self):
         invalid_xml = etree.fromstring('<xml>invalid</xml>')
@@ -68,6 +71,13 @@ class TesXMLMessage(unittest.TestCase):
             assert True
         else:
             assert False
+
+    def test_invalid_message_returns_false(self):
+        with open('./files/invalid_message.xml', 'r') as file:
+            xml_string = file.read()
+        xml = etree.fromstring(xml_string)
+        result = valid_message(xml, self.schema)
+        assert result is False
 
     def test_incorrect_type_message_returns_false(self):
         try:
