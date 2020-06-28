@@ -19,9 +19,60 @@ class MockValfirm(Service):
     __in_header__ = AuthHeader
 
     @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
-    def order(ctx, ValuationMessage):
-        validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
-        return "0"
+    def Order(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def Update(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def Cancel(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def CancelAmend(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def AssignedValuer(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def Delay(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def FeeChange(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def NoteAdded(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def QuoteRequest(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def QuoteResponse(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def Error(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def Amendment(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def Escalate(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+
+    @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
+    def Complete(ctx, ValuationMessage):
+        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
 
 schema = './files/ValuationTransaction_1_6.xsd'
@@ -40,6 +91,8 @@ def validate_message(username, password, valuation_message):
             raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
     except AttributeError:
         raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
+
+    return "0"
 
 
 application = Application([MockValfirm], 'lixi.mock.valfirm.service',
