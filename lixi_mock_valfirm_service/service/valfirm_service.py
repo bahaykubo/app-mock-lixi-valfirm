@@ -24,7 +24,7 @@ class MockValfirm(Service):
         return "0"
 
 
-schema = './lixi_mock_valfirm_service/service/files/ValuationTransaction_1_6.xsd'
+schema = './files/ValuationTransaction_1_6.xsd'
 
 
 def validate_message(username, password, valuation_message):

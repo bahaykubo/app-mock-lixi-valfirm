@@ -47,10 +47,10 @@ class TestAuthorisation(unittest.TestCase):
 class TesXMLMessage(unittest.TestCase):
 
     def setUp(self):
-        self.schema = './lixi_mock_valfirm_service/service/files/ValuationTransaction_1_6.xsd'
+        self.schema = './files/ValuationTransaction_1_6.xsd'
 
     def test_message_returns_true(self):
-        with open('./lixi_mock_valfirm_service/service/files/valid_message.xml', 'r') as file:
+        with open('./files/valid_message.xml', 'r') as file:
             xml_string = file.read()
         xml = etree.fromstring(xml_string)
         result = valid_message(xml, self.schema)
@@ -71,7 +71,7 @@ class TesXMLMessage(unittest.TestCase):
 
     def test_incorrect_type_message_returns_false(self):
         try:
-            xml_doc = etree.parse('./lixi_mock_valfirm_service/service/files/valid_message.xml')
+            xml_doc = etree.parse('./files/valid_message.xml')
             result = valid_message(xml_doc, self.schema)
         except TypeError:
             assert True
@@ -80,7 +80,7 @@ class TesXMLMessage(unittest.TestCase):
 
     def test_no_schema_raises_type_error(self):
         try:
-            with open('./lixi_mock_valfirm_service/service/files/valid_message.xml', 'r') as file:
+            with open('./files/valid_message.xml', 'r') as file:
                 xml_string = file.read()
             xml = etree.fromstring(xml_string)
             result = valid_message(xml, None)
