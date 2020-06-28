@@ -1,19 +1,21 @@
+from django.views.decorators.csrf import csrf_exempt
+
+from spyne.server.django import DjangoApplication
 from spyne import Application, rpc, Service, Unicode, error, AnyXml
 from spyne.protocol.soap import Soap11
-from spyne.server.wsgi import WsgiApplication
+from spyne.server.django import DjangoApplication
 from spyne.model.complex import ComplexModel
 
-from validators.valuation_message import authorized, valid_message
+from lixi_mock_valfirm_service.service.validators.valuation_message import authorized, valid_message
 
 
 class AuthHeader(ComplexModel):
-    __tns__ = 'lixi.ab.valuations.services'
+    __namespace__ = 'lixi.mock.valfirm.service'
     UserName = Unicode
     Password = Unicode
 
 
-class ABValuations(Service):
-    __tns__ = 'lixi.ab.valuations.services'
+class MockValfirm(Service):
     __in_header__ = AuthHeader
 
     @rpc(AnyXml, _returns=Unicode,  _out_variable_name='result')
@@ -22,7 +24,7 @@ class ABValuations(Service):
         return "0"
 
 
-schema = './files/ValuationTransaction_1_6.xsd'
+schema = './lixi_mock_valfirm_service/service/files/ValuationTransaction_1_6.xsd'
 
 
 def validate_message(username, password, valuation_message):
@@ -40,22 +42,8 @@ def validate_message(username, password, valuation_message):
         raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
 
 
-application = Application([ABValuations], 'lixi.ab.valuations.services',
+application = Application([MockValfirm], 'lixi.mock.valfirm.service',
                           in_protocol=Soap11(validator='lxml'),
                           out_protocol=Soap11())
 
-wsgi_application = WsgiApplication(application)
-
-
-if __name__ == '__main__':
-    import logging
-
-    from wsgiref.simple_server import make_server
-
-    logging.basicConfig(level=logging.INFO)
-    logging.getLogger('spyne.protocol.xml').setLevel(logging.INFO)
-    logging.info("listening to http://127.0.0.1:8000")
-    logging.info("wsdl is at: http://localhost:8000/?wsdl")
-
-    server = make_server('127.0.0.1', 8000, wsgi_application)
-    server.serve_forever()
+mock_valfirm_service = csrf_exempt(DjangoApplication(application))
