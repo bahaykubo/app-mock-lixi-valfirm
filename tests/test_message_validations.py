@@ -1,6 +1,7 @@
 import unittest
 from lxml import etree
 
+import config
 from lixi_mock_valfirm_service.service.validators.valuation_message import authorized, valid_message
 
 
@@ -50,7 +51,7 @@ class TestAuthorisation(unittest.TestCase):
 class TesXMLMessage(unittest.TestCase):
 
     def setUp(self):
-        self.schema = './files/ValuationTransaction_1_6.xsd'
+        self.schema = config.SCHEMA_FILE
 
     def test_message_returns_true(self):
         with open('./files/valid_message.xml', 'r') as file:
