@@ -93,9 +93,9 @@ def validate_message(username, password, valuation_message):
             raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
     except AttributeError:
         raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
-    except:
-        raise error.Fault(faultcode='Server',
-                          faultstring=f'Unable to process request. ValuationMessage is {valuation_message}')
+    except Exception as error:
+        raise error.Fault(faultcode='Server', faultstring=f'Unable to process request. ValuationMessage: '
+                                                          f'{valuation_message}. Error: {error}')
 
     return "0"
 

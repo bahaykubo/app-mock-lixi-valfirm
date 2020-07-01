@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'v^9m-_u+hl($_9r30ffw0z2eu0@dh1!*j-io#8vc+jtc*nnk-k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'lixi-mock-valfirm-service.azurewebsites.net']
 
