@@ -81,7 +81,6 @@ schema = config.SCHEMA_FILE
 
 
 def validate_message(username, password, valuation_message):
-    print(f'VALUATION MESSAGE: {valuation_message}')
     try:
         if not authorized(username, password):
             raise error.Fault(
@@ -94,6 +93,9 @@ def validate_message(username, password, valuation_message):
             raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
     except AttributeError:
         raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
+    except:
+        raise error.Fault(faultcode='Server',
+                          faultstring=f'Unable to process request. ValuationMessage is {valuation_message}')
 
     return "0"
 
