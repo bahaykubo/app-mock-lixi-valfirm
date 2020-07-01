@@ -81,6 +81,7 @@ schema = config.SCHEMA_FILE
 
 
 def validate_message(username, password, valuation_message):
+    print(f'VALUATION MESSAGE: {valuation_message}')
     try:
         if not authorized(username, password):
             raise error.Fault(
