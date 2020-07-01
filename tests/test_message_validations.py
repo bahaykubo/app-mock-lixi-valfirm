@@ -56,13 +56,10 @@ class TesXMLMessage(unittest.TestCase):
     def test_message_returns_true(self):
         with open('./files/valid_message.xml', 'r') as file:
             xml_string = file.read()
-        xml = etree.fromstring(xml_string)
-        result = valid_message(xml, self.schema)
-        assert result
+        result = valid_message(xml_string, self.schema)
 
     def test_invalid_valuation_message_returns_false(self):
-        invalid_xml = etree.fromstring('<xml>invalid</xml>')
-        result = valid_message(invalid_xml, self.schema)
+        result = valid_message('<xml>invalid</xml>', self.schema)
         assert result is False
 
     def test_empty_valuation_message_raises_value_error(self):
@@ -76,15 +73,16 @@ class TesXMLMessage(unittest.TestCase):
     def test_invalid_message_returns_false(self):
         with open('./files/invalid_message.xml', 'r') as file:
             xml_string = file.read()
-        xml = etree.fromstring(xml_string)
-        result = valid_message(xml, self.schema)
+        result = valid_message(xml_string, self.schema)
         assert result is False
 
-    def test_incorrect_type_message_returns_false(self):
+    def test_incorrect_type_message_raises_value_error(self):
         try:
-            xml_doc = etree.parse('./files/valid_message.xml')
-            result = valid_message(xml_doc, self.schema)
-        except TypeError:
+            with open('./files/valid_message.xml', 'r') as file:
+                xml_string = file.read()
+            xml = etree.XML(xml_string)
+            result = valid_message(xml, self.schema)
+        except ValueError:
             assert True
         else:
             assert False
@@ -93,8 +91,7 @@ class TesXMLMessage(unittest.TestCase):
         try:
             with open('./files/valid_message.xml', 'r') as file:
                 xml_string = file.read()
-            xml = etree.fromstring(xml_string)
-            result = valid_message(xml, None)
+            result = valid_message(xml_string, None)
         except TypeError:
             assert True
         else:
