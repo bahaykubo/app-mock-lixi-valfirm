@@ -87,6 +87,8 @@ def validate_message(username, password, valuation_message):
                 faultcode='Client', faultstring='Unable to process request. UserName or Password is incorrect.')
     except ValueError:
         raise error.Fault(faultcode='Client', faultstring='Unable to process request. No authorisation provided.')
+    except Exception as error:
+        raise error.Fault(faultcode='Server', faultstring='Unable to process request. Invalid authorisation.')
 
     try:
         if not valid_message(valuation_message, schema):
