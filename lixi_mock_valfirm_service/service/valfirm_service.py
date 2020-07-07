@@ -87,7 +87,7 @@ def validate_message(username, password, valuation_message):
                 faultcode='Client', faultstring='Unable to process request. UserName or Password is incorrect.')
     except ValueError:
         raise error.Fault(faultcode='Client', faultstring='Unable to process request. No authorisation provided.')
-    except Exception as error:
+    except Exception as e:
         raise error.Fault(faultcode='Server', faultstring='Unable to process request. Invalid authorisation.')
 
     try:
@@ -95,9 +95,9 @@ def validate_message(username, password, valuation_message):
             raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
     except AttributeError:
         raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
-    except Exception as error:
+    except Exception as e:
         raise error.Fault(faultcode='Server', faultstring=f'Unable to process request. ValuationMessage: '
-                                                          f'{valuation_message}. Error: {error}')
+                                                          f'{valuation_message}. Error: {e}')
 
     return "0"
 
