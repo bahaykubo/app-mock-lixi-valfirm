@@ -1,7 +1,7 @@
 import unittest
 from lxml import etree
 
-import config
+from mock_service.lixi_valfirm import config
 from mock_service.lixi_valfirm.validators.valuation_message import authorized, valid_message
 
 
@@ -54,7 +54,7 @@ class TesXMLMessage(unittest.TestCase):
         self.schema = config.SCHEMA_FILE
 
     def test_message_returns_true(self):
-        with open('./files/valid_message.xml', 'r') as file:
+        with open('./mock_service/lixi_valfirm/files/valid_message.xml', 'r') as file:
             xml_string = file.read()
         result = valid_message(xml_string, self.schema)
 
@@ -71,14 +71,14 @@ class TesXMLMessage(unittest.TestCase):
             assert False
 
     def test_invalid_message_returns_false(self):
-        with open('./files/invalid_message.xml', 'r') as file:
+        with open('./mock_service/lixi_valfirm/files/invalid_message.xml', 'r') as file:
             xml_string = file.read()
         result = valid_message(xml_string, self.schema)
         assert result is False
 
     def test_incorrect_type_message_raises_value_error(self):
         try:
-            with open('./files/valid_message.xml', 'r') as file:
+            with open('./mock_service/lixi_valfirm/files/valid_message.xml', 'r') as file:
                 xml_string = file.read()
             xml = etree.XML(xml_string)
             result = valid_message(xml, self.schema)
@@ -89,7 +89,7 @@ class TesXMLMessage(unittest.TestCase):
 
     def test_no_schema_raises_type_error(self):
         try:
-            with open('./files/valid_message.xml', 'r') as file:
+            with open('./mock_service/lixi_valfirm/files/valid_message.xml', 'r') as file:
                 xml_string = file.read()
             result = valid_message(xml_string, None)
         except TypeError:
