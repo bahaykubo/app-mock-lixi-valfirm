@@ -6,8 +6,8 @@ from spyne.protocol.soap import Soap11
 from spyne.server.django import DjangoApplication
 from spyne.model.complex import ComplexModel
 
-import config
-from lixi_mock_valfirm_service.service.validators.valuation_message import authorized, valid_message
+from mock_service.lixi_valfirm import config
+from mock_service.lixi_valfirm.validators.valuation_message import authorized, valid_message
 
 
 class AuthHeader(ComplexModel):

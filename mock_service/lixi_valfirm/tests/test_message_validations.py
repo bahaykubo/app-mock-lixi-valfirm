@@ -2,7 +2,7 @@ import unittest
 from lxml import etree
 
 import config
-from lixi_mock_valfirm_service.service.validators.valuation_message import authorized, valid_message
+from mock_service.lixi_valfirm.validators.valuation_message import authorized, valid_message
 
 
 class TestAuthorisation(unittest.TestCase):

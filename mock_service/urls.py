@@ -1,4 +1,4 @@
-"""lixi_mock_valfirm_service URL Configuration
+"""mock_service URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -18,7 +18,7 @@ from django.conf.urls import url
 from spyne.protocol.soap import Soap11
 from spyne.server.django import DjangoView
 
-from lixi_mock_valfirm_service.service.valfirm_service import mock_valfirm_service, application, MockValfirm
+from mock_service.lixi_valfirm.service import mock_valfirm_service, application, MockValfirm
 
 urlpatterns = [
     url(r'^mockvalfirm/', mock_valfirm_service),
