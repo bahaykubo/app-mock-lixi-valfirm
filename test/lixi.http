@@ -1,0 +1,47 @@
+# Use the rest client extension from vs code to send these requests
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+@hostname = https://lixi-mock-valfirm-service.azurewebsites.net/mockvalfirm/
+# @hostname = http://localhost:8000/mockvalfirm/
+
+@username = 1platform
+@password = 1platform
+
+# @packet = <ERROR></ERROR>
+@packet = <ValuationTransaction ProductionData="Yes"><RevisionNumber LIXIVersion="1.6" LenderVersion="1.0" UserVersion="1.0" UserType="Lender" /><Identifier UniqueID="b3359a25-bdd5-4a48-b35f-f11af15b75b6" Type="VPMAssigned" Description="Valocity Message Id" /><Identifier UniqueID="BW5-TWMT-EWR" Type="VPMAssigned" Description="Valocity Order Number" /><Date>2020-07-10</Date><Time>13:14:00.0000000+10:00</Time><Publisher><RelatedEntityRef RelatedID="VALOCITY" /></Publisher><Audience><RelatedEntityRef RelatedID="Opteon" /></Audience><Message><Identifier UniqueID="b3359a25-bdd5-4a48-b35f-f11af15b75b6" Type="VPMAssigned" Description="Valuation Message Id" /><MessageRelatesTo><Identifier UniqueID="BW5-TWMT-EWR" Type="VPMAssigned" Description="Valocity Order Number" /></MessageRelatesTo><MessageBody Type="Information"><Status Name="Initial"><Date>2020-07-10</Date><Time>13:14:00.0000000+10:00</Time></Status></MessageBody><ValuationType><Identifier UniqueID="Dummy_Value" Type="ValuerAssigned" Description="Valuer Reference Number" /><Identifier UniqueID="BW5-TWMT-EWR" Type="VPMAssigned" Description="Valocity Order Number" /><FullRegistered ValSubType="Standard"><SubTypeNote>Desktop Valuation</SubTypeNote><RealEstate><Identifier UniqueID="BW5-TWMT-EWR" Type="VPMAssigned" Description="Valocity Order Number" /><Residential Type="Other" /><EstimatedValue EstimateBasis="CustomerEstimate">600000</EstimatedValue><Location><Address><BuildingName /><FloorNo /><UnitNo /><StreetNo>85</StreetNo><Street Type="Way">BRAHMAN</Street><City>NORTH CASINO</City><State Name="NSW" /><Postcode>2470</Postcode><Country>AUSTRALIA</Country></Address><Title IsPrimaryTitle="Yes" /></Location></RealEstate><RequestDate><Date>2020-07-10</Date></RequestDate><DetailedComment><Comment>Contact phone: 0212345678</Comment></DetailedComment><RequestedPriority Indicator="Normal"><Date>2020-07-13</Date><Time>13:14:00.0000000+10:00</Time></RequestedPriority><FeeSegment><Fee Amount="66.0000" Description="Total (GST Inclusive)" Class="Valuer"><Identifier UniqueID="Dummy_Value" Type="VPMAssigned" Description="InvoiceNumber" /></Fee></FeeSegment><ResponseSupportingDoc DocType="Other" DocAttached="Yes" RequestorToSight="Yes"><Identifier UniqueID="Residential Valuation Standing Instructions" Type="VPMAssigned" Description="" /><ResponseDeliveryMethod Method="LixiAttachment" /><Description>Bank Standard Instructions</Description></ResponseSupportingDoc><ResponseSupportingDoc DocType="Other" DocAttached="Yes" RequestorToSight="Yes"><Identifier UniqueID="Order Summary" Type="VPMAssigned" Description="" /><ResponseDeliveryMethod Method="LixiAttachment" /><Description /></ResponseSupportingDoc></FullRegistered></ValuationType></Message><RelatedPartySegment><RelatedParty RelPartyType="ServiceCentre" RelPartyDescription="Valocity Limited"><Identifier UniqueID="Valocity Limited" Type="VPMAssigned" /><CompanyName BusinessName="Valocity Limited" /><Address><NonStdAddress>111 Wellington  CBD</NonStdAddress><City>Sydney</City><Postcode>1111</Postcode><Country>AUSTRALIA</Country></Address><WorkPhone><Phone><FixedPhone>09 309 9149</FixedPhone></Phone><Phone><Mobile /></Phone></WorkPhone><Email>carmen.vicelich@datainsight.co.nz</Email></RelatedParty><RelatedParty RelPartyType="Lender"><Identifier UniqueID="ING" Type="VPMAssigned" /><CompanyName BusinessName="ING_Bank" /><PersonName><FirstName>ING</FirstName><Surname>Bank</Surname></PersonName><Address><NonStdAddress>111 Wellington  CBD</NonStdAddress><City>Sydney</City><Postcode>1111</Postcode><Country>AUSTRALIA</Country></Address><WorkPhone><Phone><FixedPhone>61 3 555 55555</FixedPhone></Phone><Phone><Mobile>61 3 555 55555</Mobile></Phone></WorkPhone><Email>test@datainsight.co.nz</Email></RelatedParty><RelatedParty RelPartyType="ValuationFirm" RelPartyDescription="Valuation Firm registered with Valocity"><Identifier UniqueID="Opteon" Type="VPMAssigned" /><CompanyName BusinessName="Opteon property valuations and advisory services" /><PersonName><FirstName>Desk - Unassigned</FirstName><Surname>Opteon Australia</Surname></PersonName><Address><NonStdAddress>14 Forsyth Street  Whyalla</NonStdAddress><City>SA</City><Postcode>5600</Postcode><Country>AUSTRALIA</Country></Address><WorkPhone><Phone><FixedPhone>61 3 555 9000</FixedPhone></Phone><Phone><Mobile>3344</Mobile></Phone></WorkPhone><Email>opteon@valtest.co.nz</Email></RelatedParty><RelatedParty RelPartyType="Valuer" RelPartyDescription="Valuer assigned by Valuation Firm"><Identifier UniqueID="Deskval.Opteon@valtest.co.nz" Type="ValuerAssigned" Description="" /><PersonName><FirstName>Desk - Unassigned</FirstName><Surname>Opteon/Opteon Australia</Surname></PersonName><WorkPhone><Phone><FixedPhone /></Phone><Phone><Mobile /></Phone></WorkPhone></RelatedParty><RelatedParty RelPartyType="AccessFacilitator" RelPartyDescription="Customer"><Identifier UniqueID="ACCESS-PROVIDER-01" Type="VPMAssigned" Description="" /><PersonName><FirstName>Auto Mation</FirstName><Surname /></PersonName><WorkPhone><Phone><FixedPhone>0212345678</FixedPhone></Phone><Phone><Mobile /></Phone></WorkPhone><Email /></RelatedParty></RelatedPartySegment><AttachmentSegment><Attachment Filename="Deskval_valuation_requirements.pdf"><Identifier UniqueID="Residential Valuation Standing Instructions" Type="VPMAssigned" /><RelatedEntityRef RelatedID="0b3a6ad2-07ea-46a7-b892-ba875d6018ff" /></Attachment><Attachment Filename="Order_Summary_BW5-TWMT-EWR.pdf"><Identifier UniqueID="Order Summary" Type="VPMAssigned" /><RelatedEntityRef RelatedID="9b21b972-4ecc-4246-9923-a46e6c6846fc" /></Attachment></AttachmentSegment></ValuationTransaction>
+
+@action = Order
+# @action = CancelAmend
+# @action = AssignedValuer
+# @action = Delay
+# @action = FeeChange
+# @action = NoteAdded
+# @action = QuoteRequest
+# @action = QuoteResponse
+# @action = Error
+# @action = Escalate
+# @action = Complete
+# @action = Amendment
+# @action = Update
+# @action = Cancel
+# @action = ERROR!
+
+# Order
+POST {{hostname}}
+Content-Type:application/xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap-env:Header>
+        <ns0:AuthHeader xmlns:ns0="lixi.mock.valfirm.service">
+            <ns0:UserName>{{username}}</ns0:UserName>
+            <ns0:Password>{{password}}</ns0:Password>
+        </ns0:AuthHeader>
+    </soap-env:Header>
+    <soap-env:Body>
+        <ns0:{{action}} xmlns:ns0="lixi.mock.valfirm.service">
+            <ns0:ValuationMessage><![CDATA[{{packet}}]]></ns0:ValuationMessage>
+        </ns0:{{action}}>
+    </soap-env:Body>
+</soap-env:Envelope>
+
