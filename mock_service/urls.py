@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.urls import include, path
 
 from spyne.protocol.soap import Soap11
 from spyne.server.django import DjangoView
@@ -24,4 +25,5 @@ from mock_service.lendfast.service import mock_lender_service, application, Mock
 urlpatterns = [
     url(r'^mockvalfirm/', mock_valfirm_service),
     url(r'^mocklender/', mock_lender_service),
+    path('as/token.oauth2', include('mock_service.lendfast_oauth.urls')),
 ]
