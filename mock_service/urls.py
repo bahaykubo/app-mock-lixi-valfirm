@@ -19,7 +19,9 @@ from spyne.protocol.soap import Soap11
 from spyne.server.django import DjangoView
 
 from mock_service.lixi_valfirm.service import mock_valfirm_service, application, MockValfirm
+from mock_service.lendfast.service import mock_lender_service, application, MockLender
 
 urlpatterns = [
     url(r'^mockvalfirm/', mock_valfirm_service),
+    url(r'^mocklender/', mock_lender_service),
 ]
