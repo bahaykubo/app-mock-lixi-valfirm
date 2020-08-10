@@ -1,10 +1,9 @@
 from django.views.decorators.csrf import csrf_exempt
 
 from spyne.server.django import DjangoApplication
-from spyne import Application, rpc, Service, Unicode, error, AnyXml
-from spyne.protocol.soap import Soap11
+from spyne import Application, rpc, Service, Unicode
+from spyne.protocol.xml import XmlDocument
 from spyne.server.django import DjangoApplication
-from spyne.model.complex import ComplexModel
 
 
 class MockLender(Service):
@@ -15,7 +14,7 @@ class MockLender(Service):
 
 
 application = Application([MockLender], 'http://www.sandstone-vms.com.au/schema/vms/1.0',
-                          in_protocol=Soap11(validator='soft'),
-                          out_protocol=Soap11())
+                          in_protocol=XmlDocument(),
+                          out_protocol=XmlDocument())
 
 mock_lender_service = csrf_exempt(DjangoApplication(application))
