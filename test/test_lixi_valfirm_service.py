@@ -6,7 +6,7 @@ class TestLixiRequests(unittest.TestCase):
 
     def setUp(self):
         self.url = 'https://lixi-mock-valfirm-service.azurewebsites.net/mockvalfirm/'
-        self.local_url = 'http://localhost:8000/mockvalfirm/'
+        # self.url = 'http://localhost:8000/mockvalfirm/'
         self.headers = {'content-type': 'application/xml'}
         self.username = '1platform'
         self.password = '1platform'
@@ -18,39 +18,52 @@ class TestLixiRequests(unittest.TestCase):
         for action in self.actions:
             payload = self._create_message(self.username, self.password, action, self.packet).encode('utf-8')
             response = requests.request('POST', self.url, data=payload, headers=self.headers)
-            assert response.status_code == 200, f'Expecting response code 200 but got {response.status_code}'
-            assert '<tns:Result>0</tns:Result>' in response.text, f'Result is not "0" instead {response.text}'
+            assert response.status_code == 200, f'Expecting 200 but got {response.status_code}'
+            expected_response = '<tns:Result>0</tns:Result>'
+            assert expected_response in response.text, f'Expecting "{expected_response}" but got "{response.text}"'
+
+    def test_only_put_method_allowed(self):
+        methods = ['GET', 'PUT', 'DELETE']
+        for method in methods:
+            payload = self._create_message(self.username, self.password, 'Order', self.packet).encode('utf-8')
+            response = requests.request(method, self.url, data=payload, headers=self.headers)
+            assert response.status_code == 405, f'Expecting 405 but got {response.status_code}'
 
     def test_invalid_valuation_message(self):
         invalid_packet = '<xml>invalid</xml>'
         payload = self._create_message(self.username, self.password, 'Order', invalid_packet).encode('utf-8')
         response = requests.request('POST', self.url, data=payload, headers=self.headers)
-        assert response.status_code == 500, f'Expecting response code 500 but got {response.status_code}'
-        assert 'ValuationMessage is invalid' in response.text, f'Result is not "0" instead {response.text}'
+        assert response.status_code == 500, f'Expecting 500 but got {response.status_code}'
+        expected_response = 'ValuationMessage is invalid'
+        assert expected_response in response.text, f'Expecting "{expected_response}" but got "{response.text}"'
 
     def test_invalid_soap_action_method(self):
         payload = self._create_message(self.username, self.password, 'Fail', self.packet).encode('utf-8')
         response = requests.request('POST', self.url, data=payload, headers=self.headers)
-        assert response.status_code == 500, f'Expecting response code 500 but got {response.status_code}'
-        assert 'No matching global declaration available' in response.text, f'Result is not "0" instead {response.text}'
+        assert response.status_code == 500, f'Expecting 500 but got {response.status_code}'
+        expected_response = 'No matching global declaration available'
+        assert expected_response in response.text, f'Expecting "{expected_response}" but got "{response.text}"'
 
     def test_invalid_username(self):
         payload = self._create_message('invalid_username', self.password, 'Order', self.packet).encode('utf-8')
         response = requests.request('POST', self.url, data=payload, headers=self.headers)
-        assert response.status_code == 500, f'Expecting response code 500 but got {response.status_code}'
-        assert 'Invalid authorisation' in response.text, f'Result is not "0" instead {response.text}'
+        assert response.status_code == 500, f'Expecting 500 but got {response.status_code}'
+        expected_response = 'Invalid authorisation'
+        assert expected_response in response.text, f'Expecting "{expected_response}" but got "{response.text}"'
 
     def test_invalid_password(self):
         payload = self._create_message(self.username, 'invalid_password', 'Order', self.packet).encode('utf-8')
         response = requests.request('POST', self.url, data=payload, headers=self.headers)
-        assert response.status_code == 500, f'Expecting response code 500 but got {response.status_code}'
-        assert 'Invalid authorisation' in response.text, f'Result is not "0" instead {response.text}'
+        assert response.status_code == 500, f'Expecting 500 but got {response.status_code}'
+        expected_response = 'Invalid authorisation'
+        assert expected_response in response.text, f'Expecting "{expected_response}" but got "{response.text}"'
 
     def test_invalid_username_password(self):
         payload = self._create_message('invalid_username', 'invalid_password', 'Order', self.packet).encode('utf-8')
         response = requests.request('POST', self.url, data=payload, headers=self.headers)
-        assert response.status_code == 500, f'Expecting response code 500 but got {response.status_code}'
-        assert 'Invalid authorisation' in response.text, f'Result is not "0" instead {response.text}'
+        assert response.status_code == 500, f'Expecting 500 but got {response.status_code}'
+        expected_response = 'Invalid authorisation'
+        assert expected_response in response.text, f'Expecting "{expected_response}" but got "{response.text}"'
 
     def _create_message(self, username, password, action, packet):
         return f'''<?xml version="1.0" encoding="utf-8"?>
