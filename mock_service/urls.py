@@ -13,7 +13,6 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls import url
 from django.urls import include, path
 
 from spyne.protocol.soap import Soap11
@@ -23,7 +22,7 @@ from mock_service.lixi_valfirm.service import mock_valfirm_service, application,
 from mock_service.lendfast.service import mock_lender_service, application, MockLender
 
 urlpatterns = [
-    url(r'^mockvalfirm/', mock_valfirm_service),
-    url(r'^mocklender/', mock_lender_service),
+    path('mockvalfirm/', mock_valfirm_service),
+    path('mocklender/', mock_lender_service),
     path('as/token.oauth2', include('mock_service.lendfast_oauth.urls')),
 ]
