@@ -18,61 +18,61 @@ class AuthHeader(ComplexModel):
 
 class MockValfirm(Service):
     __in_header__ = AuthHeader
-    config.OUT_VARIABLE_NAME
+    out_variable_name = config.OUT_VARIABLE_NAME
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def Order(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def Update(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def Cancel(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def CancelAmend(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def AssignedValuer(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def Delay(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def FeeChange(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def NoteAdded(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def QuoteRequest(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def QuoteResponse(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def Error(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def Amendment(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def Escalate(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
-    @rpc(Unicode, _returns=Unicode,  _out_variable_name=config.OUT_VARIABLE_NAME)
+    @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
     def Complete(ctx, ValuationMessage):
         return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
 
