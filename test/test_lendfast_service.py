@@ -6,8 +6,8 @@ import json
 class TestLendfastRequests(unittest.TestCase):
 
     def setUp(self):
-        self.url = 'https://lixi-mock-valfirm-service.azurewebsites.net/mocklender/'
-        # self.url = 'http://localhost:8000/mocklender/'
+        self.url = 'https://lixi-mock-valfirm-service.azurewebsites.net/mocklender/notify'
+        # self.url = 'http://localhost:8000/mocklender/notify'
         self.headers = {'content-type': 'application/xml'}
         self.token_url = 'https://lixi-mock-valfirm-service.azurewebsites.net/as/token.oauth2'
         # self.token_url = 'http://localhost:8000/as/token.oauth2'

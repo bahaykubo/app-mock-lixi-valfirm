@@ -23,6 +23,6 @@ from mock_service.lendfast.service import mock_lender_service, application, Mock
 
 urlpatterns = [
     path('mockvalfirm/', mock_valfirm_service),
-    path('mocklender/', mock_lender_service),
+    path('mocklender/notify', mock_lender_service),
     path('as/token.oauth2', include('mock_service.lendfast_oauth.urls')),
 ]
