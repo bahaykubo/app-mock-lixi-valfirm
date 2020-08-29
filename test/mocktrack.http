@@ -1,0 +1,52 @@
+# Use the rest client extension from vs code to send these requests
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+
+@fuseaction = api.interface
+# @fuseaction = api.retrievevaluationpdf
+@accountid = 12345
+@password = AbCdEfG1234
+@autologin = ThisIsMyLOGIN
+@autopassword = th1sIsMyPWord
+
+@propertytype = 3
+@streetnum = 86
+@street = oriel
+@streettype = road
+@suburb = ivanhoe
+@postcode = 4242
+@state = nsw
+@estimate = 460000
+@realtimevalauth = abc
+
+
+# @hostname = https://lixi-mock-valfirm-service.azurewebsites.net/mocktrack/index.cfm?fuseaction={{fuseaction}}&accountid={{accountid}}&password={{password}}&autologin={{autologin}}&autopassword={{autopassword}}&realtimevalauth={{realtimevalauth}}
+@hostname = http://localhost:8000/mocktrack/index.cfm?fuseaction={{fuseaction}}&accountid={{accountid}}&password={{password}}&autologin={{autologin}}&autopassword={{autopassword}}&realtimevalauth={{realtimevalauth}}
+
+### split address
+POST {{hostname}}
+Content-Type:application/xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<hometrack>
+    <realtime accountid="{{accountid}}">
+        <valuationrequest>
+            <property propertytype="{{propertytype}}" streetnum="{{streetnum}}" street="{{street}}"
+                streettype="{{streettype}}" suburb="{{suburb}}" postcode="{{postcode}}" state="{{state}}"
+                estimatedvalue="{{estimate}}"/>
+        </valuationrequest>
+    </realtime>
+</hometrack>
+
+### single address
+
+POST {{hostname}}
+Content-Type:application/xml
+
+<?xml version="1.0" encoding="utf-16"?>
+<hometrack xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <realtime accountid="{{accountid}}">
+        <valuationrequest>
+            <property reference="CTT-EA49-CRF" propertytype="4" postcode="5120" address="7 FOREST COURT, VIRGINIA, SA 5120" />
+        </valuationrequest>
+    </realtime>
+</hometrack>
