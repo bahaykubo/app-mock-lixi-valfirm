@@ -1,10 +1,12 @@
-from django.http import HttpResponse, HttpResponseNotAllowed, FileResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.views.decorators.csrf import csrf_exempt
 import random
 from xml.etree import ElementTree
 import secrets
 from datetime import datetime
 import os
+import io
+from reportlab.pdfgen import canvas
 
 
 @csrf_exempt
@@ -27,11 +29,10 @@ def mocktrack(request):
             response = api_response(request_dict, action)
             return HttpResponse(response, content_type='text/xml;charset=UTF-8')
         elif action['fuseaction'] == 'pdf':
-            with open(os.path.join((os.path.dirname(__file__)), 'dummy.pdf'), 'r',
-                      encoding='cp437') as file:
-                response = FileResponse(file.read(), content_type='application/pdf;charset=UTF-8')
-                response['Content-Disposition'] = 'attachment; filename=mocktrack_report.pdf'
-                return response
+            pdf = create_pdf(request_dict['property'])
+            response = HttpResponse(pdf, content_type='application/pdf;charset=UTF-8')
+            response['Content-Disposition'] = 'attachment; filename=mocktrack_report.pdf'
+            return response
     else:
         return HttpResponse(error_response(102, 'No address match'), content_type='text/xml;charset=UTF-8')
 
@@ -134,6 +135,16 @@ def api_response(request, action):
             </valuationresponse>
         </realtime>
     </hometrack>'''
+
+
+def create_pdf(property):
+    buffer = io.BytesIO()
+    p = canvas.Canvas(buffer)
+    p.drawString(100, 100, f'Valocity Realtime API {property["reference"] if "reference" in property else ""}')
+    p.showPage()
+    p.save()
+    buffer.seek(0)
+    return buffer
 
 
 def error_response(error_id, message):
