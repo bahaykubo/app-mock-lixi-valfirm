@@ -75,12 +75,12 @@ class TestMocktrackRequests(unittest.TestCase):
         assert not views.allowed_request_method('delete'), 'delete should not be an allowed request method'
 
     def test_valid_xml_to_dictionary(self):
-        dictionary = views.convert_xml_request_to_dictionary(self.xml)
+        dictionary = views.convert_xml_request_to_dictionary(self.xml.encode())
         assert type(dictionary) is dict, f'expecting a dictionary if xml is valid but got {type(dictionary)}'
 
     def test_invalid_xml_to_dictionary_raises_syntax_error(self):
         try:
-            dictionary = views.convert_xml_request_to_dictionary('<bing></bong>')
+            dictionary = views.convert_xml_request_to_dictionary('<bing></bong>'.encode())
         except SyntaxError:
             assert True, 'syntax error should be raised with an invalid xml'
 
