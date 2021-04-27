@@ -1,0 +1,6 @@
+# @hostname = https://lixi-mock-valfirm-service.azurewebsites.net/pricefinder
+@hostname = http://localhost:8000/pricefinder
+
+GET {{hostname}}/v1/images/673256562
+Authorization: Bearer OGafjutE2QGd81z3BJ2Lpuu2suzaa6L3d5h8OTEUZ6S0GXdXMJqV0P
+Content-Type: application/json

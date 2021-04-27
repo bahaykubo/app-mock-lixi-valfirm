@@ -26,5 +26,6 @@ urlpatterns = [
     path('mocklender/notify', mock_lender_service),
     path('as/token.oauth2', include('mock_service.lendfast_oauth.urls')),
     path('mocktrack/', include('mock_service.mocktrack.urls')),
-    path('index.cfm', include('mock_service.mocktrack.urls'))
+    path('index.cfm', include('mock_service.mocktrack.urls')),
+    path('pricefinder/', include('mock_service.pricefinder.urls'))
 ]
