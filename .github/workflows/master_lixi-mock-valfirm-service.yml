@@ -4,6 +4,7 @@
 name: Build and deploy Python app to Azure Web App - lixi-mock-valfirm-service
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
