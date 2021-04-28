@@ -10,7 +10,7 @@ from mock_service.shared import token_generator
 @csrf_exempt
 @require_http_methods(['GET'])
 def images(request, image_id):
-    if request.headers['authorization'] and request.headers['authorization'].startswith('Bearer'):
+    if 'authorization' in request.headers and request.headers['authorization'].startswith('Bearer'):
         random_id = _image_id_selector(image_id)
         with open(f'./mock_service/pricefinder/files/images/{random_id if random_id else image_id}.jpg', "rb") as f:
             return HttpResponse(f.read(), content_type="image/jpeg")
