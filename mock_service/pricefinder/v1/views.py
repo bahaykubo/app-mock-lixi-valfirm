@@ -2,17 +2,29 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 import random
-import string
-import json
 import re
+
+from mock_service.shared import token_generator
 
 
 @csrf_exempt
 @require_http_methods(['GET'])
 def images(request, image_id):
-    random_image = _image_id_selector(image_id)
-    with open(f'./mock_service/pricefinder/files/images/{random_image if random_image else image_id}.jpg', "rb") as f:
-        return HttpResponse(f.read(), content_type="image/jpeg")
+    if request.headers['authorization'] and request.headers['authorization'].startswith('Bearer'):
+        random_id = _image_id_selector(image_id)
+        with open(f'./mock_service/pricefinder/files/images/{random_id if random_id else image_id}.jpg', "rb") as f:
+            return HttpResponse(f.read(), content_type="image/jpeg")
+    else:
+        return HttpResponse(status=401)
+
+
+@csrf_exempt
+@require_http_methods(['POST'])
+def token(request):
+    if request.POST.get('client_id') and request.POST.get('client_secret'):
+        return HttpResponse(token_generator.generate_token_dictionary())
+    else:
+        return HttpResponse('{error: "invalid grant"}', status=400, content_type='application/json')
 
 
 def _image_id_selector(image_id):
