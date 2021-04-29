@@ -1,14 +1,13 @@
 # Use the rest client extension from vs code to send these requests
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 
-@hostname = https://lixi-mock-valfirm-service.azurewebsites.net/mocklender/notify
-# @hostname = http://localhost:8000/mocklender/notify
+@url = {{mockLixiHost}}/mocklender/notify
 
 # @packet = <ERROR></ERROR>
 @packet = <q1:notificationList xmlns:q1="http://www.sandstone-vms.com.au/schema/vms/1.0"><q1:notification type="StatusChange" timestamp="2020-05-29T12:57:27.2581866"><Identifier UniqueID="cf456220-cc3a-4dfd-8ddd-7714dfec69f1" Description="Notification ID" xmlns="http://www.lixi.org.au/schema/cal1.3/ValuationTransaction" /><Identifier UniqueID="LCA-ET4R-RET" Description="Valuation ID" xmlns="http://www.lixi.org.au/schema/cal1.3/ValuationTransaction" /><Status Name="Accepted" xmlns="http://www.lixi.org.au/schema/cal1.3/ValuationTransaction"><Date>2020-05-29</Date><Time>12:57:00.0000000+10:00</Time></Status></q1:notification></q1:notificationList>
 
 # Order
-POST {{hostname}}
+POST {{url}}
 Content-Type:application/xml
 
 <?xml version="1.0" encoding="utf-8"?>

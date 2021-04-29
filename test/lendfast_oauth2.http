@@ -1,12 +1,11 @@
 # Use the rest client extension from vs code to send these requests
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 
-@hostname = https://lixi-mock-valfirm-service.azurewebsites.net/as/token.oauth2
-# @hostname = http://localhost:8000/as/token.oauth2
+@url = {{mockLixiHost}}/as/token.oauth2
 
-POST {{hostname}}
+POST {{url}}
 Content-Type:application/x-www-form-urlencoded
 
 ###
 
-curl "http://localhost:8000/as/token.oauth2" -v -k
+curl "{{url}}" -v -k

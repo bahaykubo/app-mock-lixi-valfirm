@@ -1,5 +1,5 @@
-@hostname = https://lixi-mock-valfirm-service.azurewebsites.net/pricefinder
-# @hostname = http://localhost:8000/pricefinder
+# @hostname = https://lixi-mock-valfirm-service.azurewebsites.net/pricefinder
+@hostname = {{mockLixiHost}}/pricefinder
 
 GET {{hostname}}/v1/images/900
 Authorization:Bearer sometoken
@@ -12,6 +12,7 @@ Content-Type:application/x-www-form-urlencoded
 
 client_id=bing
 &client_secret=bong
+&grant_type=bing
 
 ###
 
@@ -21,7 +22,7 @@ Content-Type:application/json
 
 ###
 
-GET {{hostname}}/v1/suggest?q=a
+GET {{hostname}}/v1/suggest?q=4%20SOMERVILLE%20STREET,%20DONCASTER,%20VIC%203108&match_ids=false
 Authorization:Bearer sometoken
 Content-Type:application/json
 
