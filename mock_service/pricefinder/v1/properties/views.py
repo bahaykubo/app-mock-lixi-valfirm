@@ -19,3 +19,15 @@ def images(request, property_id):
             return HttpResponse(file, content_type='application/json')
     else:
         return HttpResponse(status=401)
+
+
+@csrf_exempt
+@require_http_methods(['GET'])
+def property(request, property_id):
+    # we don't care what property id we get from the request
+    # we will always return a generic property
+    if request_validator.is_authorized(request):
+        with open(f'./mock_service/pricefinder/files/property.json', 'rb') as file:
+            return HttpResponse(file, content_type='application/json')
+    else:
+        return HttpResponse(status=401)

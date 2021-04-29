@@ -1,0 +1,20 @@
+{
+    "address": {
+        "lga": "SPRINGFIELD CITY"
+    },
+    "features": {
+        "bedrooms": 4,
+        "bathrooms": 2,
+        "carParks": 2
+    },
+    "landDetails": {
+        "propertyArea": 542.0,
+        "buildingArea": 240.0
+    },
+    "rpd": "42/LP25101409",
+    "owners": {
+        "names": "THE SIMPSONS",
+        "ownerOccupied": true,
+        "ownerAddress": "N/A"
+    }
+}
