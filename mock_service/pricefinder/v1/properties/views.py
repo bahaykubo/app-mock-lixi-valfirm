@@ -10,6 +10,10 @@ from mock_service.shared import request_validator
 @csrf_exempt
 @require_http_methods(['GET'])
 def images(request, property_id):
+    # we don't care what property id we get from the request
+    # we will always return a list of images based on the images
+    # we have on pricefinder/files/images so that the requester will
+    # always get images on their subsequent request for the actual image
     if request_validator.is_authorized(request):
         with open(f'./mock_service/pricefinder/files/property_images.json', 'rb') as file:
             return HttpResponse(file, content_type='application/json')

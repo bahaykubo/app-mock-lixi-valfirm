@@ -11,6 +11,9 @@ from mock_service.shared import request_validator
 @csrf_exempt
 @require_http_methods(['GET'])
 def images(request, image_id):
+    # we have a set of specific images with an id range of 900-907
+    # this is so we can provide a valid list of images for property/{id}/images
+    # that they can then use to send request to this endpoint
     if request_validator.is_authorized(request):
         random_id = _image_id_selector(image_id)
         with open(f'./mock_service/pricefinder/files/images/{random_id if random_id else image_id}.jpg', "rb") as f:
