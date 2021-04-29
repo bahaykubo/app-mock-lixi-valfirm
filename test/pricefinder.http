@@ -12,3 +12,9 @@ Content-Type:application/x-www-form-urlencoded
 
 client_id=bing
 &client_secret=bong
+
+###
+
+GET {{hostname}}/v1/properties/900/images
+Authorization:Bearer sometoken
+Content-Type:application/json
