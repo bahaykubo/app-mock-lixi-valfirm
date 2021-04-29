@@ -33,7 +33,9 @@ def suggest(request):
         property_matches = []
         if request.GET.get('q'):
             property_matches.append({
-                'property': '424242',
+                'property': {
+                    'id': 424242
+                },
                 'display': request.GET.get('q')
             })
         return HttpResponse(json.dumps({'matches': property_matches}), content_type='application/json')
