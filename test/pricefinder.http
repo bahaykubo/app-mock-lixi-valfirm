@@ -18,3 +18,9 @@ client_id=bing
 GET {{hostname}}/v1/properties/900/images
 Authorization:Bearer sometoken
 Content-Type:application/json
+
+###
+
+GET {{hostname}}/v1/suggest?q=a
+Authorization:Bearer sometoken
+Content-Type:application/json

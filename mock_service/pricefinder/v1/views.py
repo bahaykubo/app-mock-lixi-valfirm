@@ -3,6 +3,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 import random
 import re
+import json
 
 from mock_service.shared import token_generator
 from mock_service.shared import request_validator
@@ -18,6 +19,24 @@ def images(request, image_id):
         random_id = _image_id_selector(image_id)
         with open(f'./mock_service/pricefinder/files/images/{random_id if random_id else image_id}.jpg', "rb") as f:
             return HttpResponse(f.read(), content_type="image/jpeg")
+    else:
+        return HttpResponse(status=401)
+
+
+@csrf_exempt
+@require_http_methods(['GET'])
+def suggest(request):
+    # we will always return the same address we are given from the request
+    # and return an arbitrary property id just so the requester can make a further
+    # request for property details and images
+    if request_validator.is_authorized(request):
+        property_matches = []
+        if request.GET.get('q'):
+            property_matches.append({
+                'property': '424242',
+                'display': request.GET.get('q')
+            })
+        return HttpResponse(json.dumps({'matches': property_matches}), content_type='application/json')
     else:
         return HttpResponse(status=401)
 
