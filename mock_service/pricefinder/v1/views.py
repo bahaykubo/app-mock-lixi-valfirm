@@ -44,7 +44,7 @@ def suggest(request):
 @csrf_exempt
 @require_http_methods(['POST'])
 def token(request):
-    if request.POST.get('client_id') and request.POST.get('client_secret'):
+    if all([query for query in ['client_id', 'client_secret'] if query in request.META['QUERY_STRING']]):
         return HttpResponse(token_generator.generate_token_dictionary())
     else:
         return HttpResponse('{error: "invalid grant"}', status=400, content_type='application/json')
