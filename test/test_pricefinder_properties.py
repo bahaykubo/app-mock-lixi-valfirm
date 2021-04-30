@@ -6,7 +6,7 @@ import json
 class TestPriceFinderProperties(unittest.TestCase):
 
     def setUp(self):
-        self.url = 'http://lixi-mock-valfirm-service.azurewebsites.net/pricefinder/v1/properties'
+        self.url = 'https://lixi-mock-valfirm-service.azurewebsites.net/pricefinder/v1/properties'
 
     def test_should_return_property_details_given_a_property_id_number(self):
         response = requests.get(f'{self.url}/900', headers={
@@ -45,7 +45,7 @@ class TestPriceFinderProperties(unittest.TestCase):
 class TestPriceFinderPropertiesImages(unittest.TestCase):
 
     def setUp(self):
-        self.url = 'http://localhost:8000/pricefinder/v1/properties'
+        self.url = 'https://lixi-mock-valfirm-service.azurewebsites.net/pricefinder/v1/properties'
 
     def test_should_return_list_of_property_images_given_a_property_id_number(self):
         response = requests.get(f'{self.url}/900/images', headers={

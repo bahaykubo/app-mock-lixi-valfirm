@@ -8,7 +8,7 @@ from mock_service.pricefinder.v1 import views
 class TestPriceFinderImages(unittest.TestCase):
 
     def setUp(self):
-        self.url = 'http://lixi-mock-valfirm-service.azurewebsites.net/pricefinder/v1/images'
+        self.url = 'https://lixi-mock-valfirm-service.azurewebsites.net/pricefinder/v1/images'
 
     def test_should_return_random_id_if_outside_900_907_range(self):
         random_id = views._image_id_selector('900001')

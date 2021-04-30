@@ -6,7 +6,7 @@ import json
 class TestPriceFinderAuth(unittest.TestCase):
 
     def setUp(self):
-        self.url = 'http://localhost:8000/pricefinder/v1/oauth2/token'
+        self.url = 'https://lixi-mock-valfirm-service.azurewebsites.net/pricefinder/v1/oauth2/token'
 
     def test_should_return_access_token_on_valid_authorization_request(self):
         response = requests.post(self.url, data={
