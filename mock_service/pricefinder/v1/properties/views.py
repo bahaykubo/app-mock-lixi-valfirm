@@ -1,8 +1,6 @@
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
-import random
-import re
 
 from mock_service.shared import request_validator
 
