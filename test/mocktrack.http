@@ -18,12 +18,10 @@
 @estimate = 460000
 @realtimevalauth = abc
 
-
-# @hostname = https://lixi-mock-valfirm-service.azurewebsites.net/mocktrack/index.cfm?fuseaction={{fuseaction}}&accountid={{accountid}}&password={{password}}&autologin={{autologin}}&autopassword={{autopassword}}&realtimevalauth={{realtimevalauth}}
-@hostname = http://localhost:8000/mocktrack/index.cfm?fuseaction={{fuseaction}}&accountid={{accountid}}&password={{password}}&autologin={{autologin}}&autopassword={{autopassword}}&realtimevalauth={{realtimevalauth}}
+@url = {{mockLixiHost}}/mocktrack/index.cfm?fuseaction={{fuseaction}}&accountid={{accountid}}&password={{password}}&autologin={{autologin}}&autopassword={{autopassword}}&realtimevalauth={{realtimevalauth}}
 
 ### split address
-POST {{hostname}}
+POST {{url}}
 Content-Type:application/xml
 
 <?xml version="1.0" encoding="utf-8"?>
@@ -39,7 +37,7 @@ Content-Type:application/xml
 
 ### single address
 
-POST {{hostname}}
+POST {{url}}
 Content-Type:application/xml
 
 <?xml version="1.0" encoding="utf-16"?>
