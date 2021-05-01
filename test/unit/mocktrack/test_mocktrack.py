@@ -1,17 +1,13 @@
-import unittest
-import os
 import copy
+from django.test import TestCase
 from django.http import QueryDict
-import requests
 
 from mock_service.mocktrack import views
 
 
-class TestMocktrackRequests(unittest.TestCase):
+class TestMocktrack(TestCase):
 
     def setUp(self):
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mock_service.settings')
-
         self.xml = f'''<?xml version="1.0" encoding="utf-8"?>
             <hometrack>
                 <realtime accountid="123456">
@@ -23,15 +19,14 @@ class TestMocktrackRequests(unittest.TestCase):
                 </realtime>
             </hometrack>'''
 
-        self.xml_address_only = f'''<?xml version="1.0" encoding="utf-8"?>
-            <hometrack>
-                <realtime accountid="123456">
-                    <valuationrequest>
-                        <property reference="CTT-EA49-CRF" propertytype="4" postcode="5120"
-                            address="7 FOREST COURT, VIRGINIA, SA 5120" />
-                    </valuationrequest>
-                </realtime>
-            </hometrack>'''
+        self.request_parameters = {
+            'fuseaction': 'api.interface',
+            'accountid': '13265',
+            'password': 'AbCdEfG1234',
+            'autologin': 'ThisIsMyLOGIN',
+            'autopassword': 'th1sIsMyPWord',
+            'realtimevalauth': 'abc'
+        }
 
         self.property_request = {
             'realtime': {
@@ -46,23 +41,12 @@ class TestMocktrackRequests(unittest.TestCase):
                 'postcode': '4242',
                 'state': 'nsw',
                 'estimatedvalue': '485000'
-            }}
-
-        self.request_parameters = {
-            'fuseaction': 'api.interface',
-            'accountid': '13265',
-            'password': 'AbCdEfG1234',
-            'autologin': 'ThisIsMyLOGIN',
-            'autopassword': 'th1sIsMyPWord',
-            'realtimevalauth': 'abc'
+            }
         }
 
         self.action = {
             'account_id': '13265'
         }
-
-    def set_url(self, action, env=None):
-        return f'https://{"localhost:8000" if env == "local" else "lixi-mock-valfirm-service.azurewebsites.net"}/mocktrack/index.cfm?fuseaction={"api.interface" if action == "api" else "api.retrievevaluationpdf"}&accountid=13265&password=AbCdEfG1234&autologin=ThisIsMyLOGIN&autopassword=th1sIsMyPWord&realtimevalauth=abc'
 
     def test_get_is_allowed_request_method(self):
         assert views.allowed_request_method('get')
@@ -168,13 +152,3 @@ class TestMocktrackRequests(unittest.TestCase):
     def test_error_response(self):
         xml = views.error_response('1', 'expect this error message')
         assert f'errorid="1" errormessage="expect this error message"' in xml
-
-    def test_mocktrack_api_request_response(self):
-        response = requests.post(self.set_url('api'), data=self.xml)
-        assert response.status_code == 200, f'Expecting 200 but got {response.status_code}'
-        assert '/xml' in response.headers['Content-Type'], f'Expecting xml content but got {response.headers}'
-
-    def test_mocktrack_pdf_request_response(self):
-        response = requests.post(self.set_url('pdf'), data=self.xml)
-        assert response.status_code == 200, f'Expecting 200 but got {response.status_code}'
-        assert '/pdf' in response.headers['Content-Type'], f'Expecting pdf content but got {response.headers}'
