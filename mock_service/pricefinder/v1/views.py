@@ -53,7 +53,7 @@ def token(request):
 
 
 def _image_id_selector(image_id):
-    if not re.search('^[9][0][0-7]$', str(image_id)):
+    if type(image_id) == int and not re.search('^[9][0][0-7]$', str(image_id)):
         return random.randint(900, 907)
     else:
         return None
