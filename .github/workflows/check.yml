@@ -1,11 +1,12 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy Python app to Azure Web App - lixi-mock-valfirm-service
+name: Build and run tests
 
 on:
   workflow_dispatch:
   push:
+  pull_request:
     branches:
       - master
 
@@ -29,19 +30,3 @@ jobs:
 
     - name: Run test
       run: pipenv run python -m manage test test.unit
-
-    - name: Build using AppService-Build
-      uses: azure/appservice-build@v1
-      with:
-        platform: python
-        platform-version: '3.7'
-
-    - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v1
-      with:
-        app-name: 'lixi-mock-valfirm-service'
-        slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_57fd9d3e02eb4e77adf6b31647bb18bc }}
-
-    - name: Run e2e test
-      run: pipenv run python -m unittest discover -s test/e2e
