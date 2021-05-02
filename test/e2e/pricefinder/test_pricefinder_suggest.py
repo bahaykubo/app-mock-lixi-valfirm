@@ -1,6 +1,6 @@
-from unittest import TestCase
 import requests
 import json
+from unittest import TestCase
 
 from test import config
 

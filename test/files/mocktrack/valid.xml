@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<hometrack>
+    <realtime accountid="123456">
+        <valuationrequest>
+            <property reference="CTT-EA49-CRF" propertytype="3" streetnum="86" street="oriel"
+                streettype="road" suburb="ivanhoe" postcode="4242" state="nsw"
+                estimatedvalue="485000"/>
+        </valuationrequest>
+    </realtime>
+</hometrack>

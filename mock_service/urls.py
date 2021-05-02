@@ -15,11 +15,8 @@ Including another URLconf
 """
 from django.urls import include, path
 
-from spyne.protocol.soap import Soap11
-from spyne.server.django import DjangoView
-
-from mock_service.lixi_valfirm.service import mock_valfirm_service, application, MockValfirm
-from mock_service.lendfast.service import mock_lender_service, application, MockLender
+from mock_service.lixi_valfirm.service import mock_valfirm_service
+from mock_service.lendfast.service import mock_lender_service
 
 urlpatterns = [
     path('mockvalfirm/', mock_valfirm_service),

@@ -9,19 +9,20 @@ class TestXMLMessage(TestCase):
 
     def setUp(self):
         self.schema = config.SCHEMA_FILE
+        self.valid_message = valid_message
 
     def test_message_returns_true(self):
         with open('./test/files/lixi/valid_message.xml', 'r') as file:
             xml_string = file.read()
-        result = valid_message(xml_string, self.schema)
+        self.valid_message(xml_string, self.schema)
 
     def test_invalid_valuation_message_returns_false(self):
-        result = valid_message('<xml>invalid</xml>', self.schema)
+        result = self.valid_message('<xml>invalid</xml>', self.schema)
         assert result is False
 
     def test_empty_valuation_message_raises_value_error(self):
         try:
-            result = valid_message(None, self.schema)
+            self.valid_message(None, self.schema)
         except ValueError:
             assert True
         else:
@@ -30,7 +31,7 @@ class TestXMLMessage(TestCase):
     def test_invalid_message_returns_false(self):
         with open('./test/files/lixi/invalid_message.xml', 'r') as file:
             xml_string = file.read()
-        result = valid_message(xml_string, self.schema)
+        result = self.valid_message(xml_string, self.schema)
         assert result is False
 
     def test_incorrect_type_message_raises_value_error(self):
@@ -38,7 +39,7 @@ class TestXMLMessage(TestCase):
             with open('./test/files/lixi/valid_message.xml', 'r') as file:
                 xml_string = file.read()
             xml = etree.XML(xml_string)
-            result = valid_message(xml, self.schema)
+            self.valid_message(xml, self.schema)
         except ValueError:
             assert True
         else:
@@ -48,7 +49,7 @@ class TestXMLMessage(TestCase):
         try:
             with open('./test/files/lixi/valid_message.xml', 'r') as file:
                 xml_string = file.read()
-            result = valid_message(xml_string, None)
+            self.valid_message(xml_string, None)
         except TypeError:
             assert True
         else:

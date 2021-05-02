@@ -60,7 +60,8 @@ class TestLixi(TestCase):
         self.assertEqual(response.status_code, 500)
         self.assertIn('Invalid authorisation', response.text)
 
-    def _create_message(self, username, password, action, packet):
+    @staticmethod
+    def _create_message(username, password, action, packet):
         return f'''<?xml version="1.0" encoding="utf-8"?>
         <soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
             <soap-env:Header>
@@ -76,7 +77,8 @@ class TestLixi(TestCase):
             </soap-env:Body>
         </soap-env:Envelope>'''
 
-    def _get_packet(self):
+    @staticmethod
+    def _get_packet():
         with open('./test/files/lixi/valid_message.xml', 'r') as file:
             packet = file.read()
         return packet

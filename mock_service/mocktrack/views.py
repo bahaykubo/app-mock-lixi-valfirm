@@ -4,7 +4,6 @@ import random
 from xml.etree import ElementTree
 import secrets
 from datetime import datetime
-import os
 import io
 from reportlab.pdfgen import canvas
 
@@ -52,18 +51,15 @@ def convert_xml_request_to_dictionary(xml):
             if 'xmlns' not in child.attrib:
                 xml_request_dict[child.tag] = {k: v for k, v in child.attrib.items() if v is not ''}
         return xml_request_dict
-    except ElementTree.ParseError as e:
-        raise SyntaxError(f'Unrecognised XML Format - please check schema {e}')
+    except ElementTree.ParseError as exception:
+        raise SyntaxError(f'Unrecognised XML Format - please check schema {exception}') from exception
 
 
 def address_complete(request):
     try:
-        if request['property'] and ('address' in request['property'] or all(
+        return request['property'] and ('address' in request['property'] or all(
             key.lower() in request['property'] for key in (
-                'streetnum', 'street', 'streettype', 'suburb', 'postcode', 'state'))):
-            return True
-        else:
-            return False
+                'streetnum', 'street', 'streettype', 'suburb', 'postcode', 'state')))
     except Exception:
         return False
 
@@ -90,8 +86,8 @@ def validate_request_and_get_action(url_string_parameters):
             return action
         else:
             raise PermissionError()
-    except Exception as e:
-        raise PermissionError('Incorrect Login details supplied')
+    except Exception as exception:
+        raise PermissionError('Incorrect Login details supplied') from exception
 
 
 def api_response(request, action):
@@ -139,10 +135,10 @@ def api_response(request, action):
 
 def create_pdf(property):
     buffer = io.BytesIO()
-    p = canvas.Canvas(buffer)
-    p.drawString(100, 100, f'Valocity Realtime API {property["reference"] if "reference" in property else ""}')
-    p.showPage()
-    p.save()
+    pdf = canvas.Canvas(buffer)
+    pdf.drawString(100, 100, f'Valocity Realtime API {property["reference"] if "reference" in property else ""}')
+    pdf.showPage()
+    pdf.save()
     buffer.seek(0)
     return buffer
 
