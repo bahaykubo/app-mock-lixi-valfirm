@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotAllowed
+from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 import random
@@ -17,8 +17,8 @@ def images(request, image_id):
     # that they can then use to send request to this endpoint
     if request_validator.is_authorized(request.headers):
         random_id = _image_id_selector(image_id)
-        with open(f'./mock_service/pricefinder/files/images/{random_id if random_id else image_id}.jpg', "rb") as f:
-            return HttpResponse(f.read(), content_type="image/jpeg")
+        with open(f'./mock_service/pricefinder/files/images/{random_id if random_id else image_id}.jpg', "rb") as file:
+            return HttpResponse(file.read(), content_type="image/jpeg")
     else:
         return HttpResponse(status=401)
 
@@ -46,14 +46,14 @@ def suggest(request):
 @csrf_exempt
 @require_http_methods(['POST'])
 def token(request):
-    if all([query in request.POST.dict() for query in ['client_id', 'client_secret']]):
+    if all(query in request.POST.dict() for query in ['client_id', 'client_secret']):
         return HttpResponse(token_generator.generate_token_dictionary())
     else:
         return HttpResponse('{error: "invalid grant"}', status=400, content_type='application/json')
 
 
 def _image_id_selector(image_id):
-    if type(image_id) == int and not re.search('^[9][0][0-7]$', str(image_id)):
+    if isinstance(image_id, int) and not re.search('^[9][0][0-7]$', str(image_id)):
         return random.randint(900, 907)
     else:
         return None

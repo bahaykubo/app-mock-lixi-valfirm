@@ -18,7 +18,7 @@ class TestPriceFinderProperties(TestCase):
 
         data = json.loads(response.text)
         expected_property_details = ['address', 'features', 'landDetails', 'rpd', 'owners']
-        assert all([property_detail in data for property_detail in expected_property_details])
+        assert all(property_detail in data for property_detail in expected_property_details)
 
     def test_should_return_error_given_a_property_id_non_number(self):
         response = requests.get(f'{self.url}/xyz', headers={

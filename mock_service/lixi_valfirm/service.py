@@ -1,9 +1,8 @@
 from django.views.decorators.csrf import csrf_exempt
 
 from spyne.server.django import DjangoApplication
-from spyne import Application, rpc, Service, Unicode, error, AnyXml
+from spyne import Application, rpc, Service, Unicode, error
 from spyne.protocol.soap import Soap11
-from spyne.server.django import DjangoApplication
 from spyne.model.complex import ComplexModel
 
 from mock_service.lixi_valfirm import config
@@ -16,68 +15,70 @@ class AuthHeader(ComplexModel):
     Password = Unicode
 
 
+# pylint: disable=invalid-name,no-member
 class MockValfirm(Service):
+
     __in_header__ = AuthHeader
     out_variable_name = config.OUT_VARIABLE_NAME
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def Order(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def Order(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def Update(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def Update(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def Cancel(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def Cancel(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def CancelAmend(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def CancelAmend(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def AssignedValuer(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def AssignedValuer(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def Delay(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def Delay(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def FeeChange(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def FeeChange(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def NoteAdded(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def NoteAdded(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def QuoteRequest(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def QuoteRequest(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def QuoteResponse(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def QuoteResponse(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def Error(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def Error(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def Amendment(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def Amendment(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def Escalate(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def Escalate(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
     @rpc(Unicode, _returns=Unicode,  _out_variable_name=out_variable_name)
-    def Complete(ctx, ValuationMessage):
-        return validate_message(ctx.in_header.UserName, ctx.in_header.Password, ValuationMessage)
+    def Complete(self, ValuationMessage):
+        return validate_message(self.in_header.UserName, self.in_header.Password, ValuationMessage)
 
 
-schema = config.SCHEMA_FILE
+SCHEMA = config.SCHEMA_FILE
 
 
 def validate_message(username, password, valuation_message):
@@ -87,17 +88,17 @@ def validate_message(username, password, valuation_message):
                 faultcode='Client', faultstring='Unable to process request. UserName or Password is incorrect.')
     except ValueError:
         raise error.Fault(faultcode='Client', faultstring='Unable to process request. No authorisation provided.')
-    except Exception as e:
+    except Exception:
         raise error.Fault(faultcode='Server', faultstring='Unable to process request. Invalid authorisation.')
 
     try:
-        if not valid_message(valuation_message, schema):
+        if not valid_message(valuation_message, SCHEMA):
             raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
     except AttributeError:
         raise error.Fault(faultcode='Client', faultstring='Unable to process request. ValuationMessage is invalid')
-    except Exception as e:
+    except Exception as exception:
         raise error.Fault(faultcode='Server', faultstring=f'Unable to process request. ValuationMessage: '
-                                                          f'{valuation_message}. Error: {e}')
+                                                          f'{valuation_message}. Error: {exception}')
 
     return "0"
 

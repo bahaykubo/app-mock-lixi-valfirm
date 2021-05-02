@@ -1,6 +1,5 @@
 from unittest import TestCase
 import requests
-import json
 
 from test import config
 

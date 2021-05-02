@@ -1,4 +1,4 @@
-from django.urls import path, re_path, include
+from django.urls import path, include
 
 # see open api spec for pricefinder endpoints we are mocking here
 # https://api.pricefinder.com.au/v1/swagger/index.html#/
