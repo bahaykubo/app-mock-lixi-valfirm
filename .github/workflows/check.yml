@@ -30,8 +30,11 @@ jobs:
 
     - name: Lint
       run: |
-        pipenv run python -m pylint mock_service test
+        chmod +x "${GITHUB_WORKSPACE}/scripts/lint.sh"
+        ./scripts/lint.sh
 
     - name: Run test
       if: ${{ always() }}
-      run: pipenv run python -m manage test test.unit
+      run: |
+        chmod +x "${GITHUB_WORKSPACE}/scripts/test.sh"
+        ./scripts/test.sh

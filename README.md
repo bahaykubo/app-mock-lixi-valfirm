@@ -19,17 +19,39 @@ pipenv install --dev
 To start and run the application:
 
 ```bash
-pipenv run python -m manage runserver
+./scripts/start.sh
 ```
 
 This will run the app on http://localhost:8000.
 
-# Run Test
+# Lint
 
-To run the tests for the project:
+To lint the project mock_service and test folders:
 
 ```bash
-pipenv run python -m unittest
+./scripts/lint.sh
+```
+
+# Test
+
+To test the application:
+
+```bash
+./scripts/test.sh
+```
+
+# E2E Test
+
+To run the http request tests for the project locally:
+
+```bash
+./scripts/e2e-local.sh
+```
+
+To run the tests in production:
+
+```bash
+./scripts/e2e.sh
 ```
 
 # Http Requests
