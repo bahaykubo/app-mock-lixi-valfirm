@@ -28,5 +28,10 @@ jobs:
         python -m pip install pipenv
         pipenv install --dev
 
+    - name: Lint
+      run: |
+        pipenv run python -m pylint mock_service test
+
     - name: Run test
+      if: ${{ always() }}
       run: pipenv run python -m manage test test.unit
