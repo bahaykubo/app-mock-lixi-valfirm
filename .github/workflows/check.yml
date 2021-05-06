@@ -38,3 +38,13 @@ jobs:
       run: |
         chmod +x "${GITHUB_WORKSPACE}/scripts/test.sh"
         ./scripts/test.sh
+
+    - name: Start app on local
+      run: |
+        docker-compose -f docker-compose.ci.yml up -d --build
+
+    - name: Run e2e test on local
+      if: ${{ always() }}
+      run: |
+        chmod +x "${GITHUB_WORKSPACE}/scripts/e2e-local.sh"
+        ./scripts/e2e-local.sh
