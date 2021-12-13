@@ -8,7 +8,7 @@ requests = "==2.24.0"
 pylint = "==2.8.2"
 
 [packages]
-lxml = "==4.6.3"
+lxml = "==4.6.5"
 spyne = "==2.13.15"
 Django = "==3.1.13"
 reportlab = "==3.5.48"
