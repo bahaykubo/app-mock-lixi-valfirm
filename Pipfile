@@ -11,7 +11,7 @@ pylint = "==2.8.2"
 lxml = "==4.6.3"
 spyne = "==2.13.15"
 Django = "==3.1.14"
-reportlab = "==3.5.48"
+reportlab = "==3.5.55"
 
 [requires]
 python_version = "3.7"
