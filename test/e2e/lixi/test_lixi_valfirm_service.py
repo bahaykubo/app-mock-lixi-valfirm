@@ -18,7 +18,7 @@ class TestLixi(TestCase):
     def test_successful_soap_actions_message(self):
         for action in self.actions:
             payload = self._create_message(self.username, self.password, action, self.packet).encode('utf-8')
-            response = requests.post(self.url, data=payload, headers=self.headers)
+            response = requests.post(self.url, data=payload, headers=self.headers, timeout=30)
             self.assertEqual(response.status_code, 200)
             self.assertIn('<tns:Result>0</tns:Result>', response.text)
 
@@ -26,37 +26,37 @@ class TestLixi(TestCase):
         methods = ['GET', 'PUT', 'DELETE']
         for method in methods:
             payload = self._create_message(self.username, self.password, 'Order', self.packet).encode('utf-8')
-            response = requests.request(method, self.url, data=payload, headers=self.headers)
+            response = requests.request(method, self.url, data=payload, headers=self.headers, timeout=30)
             self.assertEqual(response.status_code, 405)
 
     def test_invalid_valuation_message(self):
         invalid_packet = '<xml>invalid</xml>'
         payload = self._create_message(self.username, self.password, 'Order', invalid_packet).encode('utf-8')
-        response = requests.post(self.url, data=payload, headers=self.headers)
+        response = requests.post(self.url, data=payload, headers=self.headers, timeout=30)
         self.assertEqual(response.status_code, 500)
         self.assertIn('ValuationMessage is invalid', response.text)
 
     def test_invalid_soap_action_method(self):
         payload = self._create_message(self.username, self.password, 'Fail', self.packet).encode('utf-8')
-        response = requests.request('POST', self.url, data=payload, headers=self.headers)
+        response = requests.request('POST', self.url, data=payload, headers=self.headers, timeout=30)
         self.assertEqual(response.status_code, 500)
         self.assertIn('No matching global declaration available', response.text)
 
     def test_invalid_username(self):
         payload = self._create_message('invalid_username', self.password, 'Order', self.packet).encode('utf-8')
-        response = requests.request('POST', self.url, data=payload, headers=self.headers)
+        response = requests.request('POST', self.url, data=payload, headers=self.headers, timeout=30)
         self.assertEqual(response.status_code, 500)
         self.assertIn('Invalid authorisation', response.text)
 
     def test_invalid_password(self):
         payload = self._create_message(self.username, 'invalid_password', 'Order', self.packet).encode('utf-8')
-        response = requests.request('POST', self.url, data=payload, headers=self.headers)
+        response = requests.request('POST', self.url, data=payload, headers=self.headers, timeout=30)
         self.assertEqual(response.status_code, 500)
         self.assertIn('Invalid authorisation', response.text)
 
     def test_invalid_username_password(self):
         payload = self._create_message('invalid_username', 'invalid_password', 'Order', self.packet).encode('utf-8')
-        response = requests.request('POST', self.url, data=payload, headers=self.headers)
+        response = requests.request('POST', self.url, data=payload, headers=self.headers, timeout=30)
         self.assertEqual(response.status_code, 500)
         self.assertIn('Invalid authorisation', response.text)
 
@@ -79,6 +79,6 @@ class TestLixi(TestCase):
 
     @staticmethod
     def _get_packet():
-        with open('./test/files/lixi/valid_message.xml', 'r') as file:
+        with open('./test/files/lixi/valid_message.xml', 'r', encoding='utf-8') as file:
             packet = file.read()
         return packet

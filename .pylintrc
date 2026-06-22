@@ -5,7 +5,9 @@ disable=
     C0115, # missing-class-docstring
     C0116, # missing-function-docstring
     C0301, # line-too-long
+    R0801, # duplicate-code
     R0904, # too-many-public-methods
+    R0911, # too-many-return-statements
     W0212, # protected-access
     C0411, # wrong-import-order
     R1705, # no-else-return

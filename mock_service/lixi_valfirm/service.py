@@ -72,7 +72,7 @@ def mock_valfirm_service(request):
 
     try:
         if not authorized(username, password):
-            raise Exception('invalid credentials')
+            return _soap_fault('Server', 'Unable to process request. Invalid authorisation.')
     except ValueError:
         return _soap_fault('Client', 'Unable to process request. No authorisation provided.')
     except Exception:

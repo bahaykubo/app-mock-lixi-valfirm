@@ -17,7 +17,7 @@ class TestPriceFinderAuth(TestCase):
             'client_secret': 'bong',
         }, headers={
             'content-type': 'application/x-www-form-urlencoded'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 200)
         assert response.status_code == 200
 
@@ -31,7 +31,7 @@ class TestPriceFinderAuth(TestCase):
             'client_secret': 'bong',
         }, headers={
             'content-type': 'application/x-www-form-urlencoded'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 400)
 
     @skip('passing for now until we figure out how client sends request')
@@ -41,7 +41,7 @@ class TestPriceFinderAuth(TestCase):
             'client_id': 'bing',
         }, headers={
             'content-type': 'application/x-www-form-urlencoded'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 400)
 
     @skip('passing for now until we figure out how client sends request')
@@ -50,7 +50,7 @@ class TestPriceFinderAuth(TestCase):
             'grant_type': 'bong',
         }, headers={
             'content-type': 'application/x-www-form-urlencoded'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 400)
 
     def test_should_only_allow_post_requests(self):
@@ -61,5 +61,5 @@ class TestPriceFinderAuth(TestCase):
                 'client_secret': 'bong',
             }, headers={
                 'content-type': 'application/x-www-form-urlencoded'
-            })
+            }, timeout=30)
             self.assertEqual(response.status_code, 405)

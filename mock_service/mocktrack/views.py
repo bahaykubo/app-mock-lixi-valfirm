@@ -46,7 +46,7 @@ def allowed_request_method(method):
 def convert_xml_request_to_dictionary(xml):
     try:
         xml_request = ElementTree.fromstring(xml.decode('utf-8'))
-        xml_request_dict = dict()
+        xml_request_dict = {}
         for child in xml_request.iter('*'):
             if 'xmlns' not in child.attrib:
                 xml_request_dict[child.tag] = {k: v for k, v in child.attrib.items() if v is not ''}
@@ -73,7 +73,7 @@ def validate_request_and_get_action(url_string_parameters):
         auto_password = url_string_parameters.get('autopassword', None)
         realtime_val_auth = url_string_parameters.get('realtimevalauth', None)
 
-        action = dict()
+        action = {}
         if fuseaction and account_id and password and auto_login and auto_password:
             action['account_id'] = account_id
             if fuseaction == 'api.interface':
