@@ -1,4 +1,4 @@
-FROM python:3.7-slim
+FROM python:3.13-slim
 
 ENV PATH="/scripts:${PATH}"
 ENV PIPENV_VENV_IN_PROJECT=1
