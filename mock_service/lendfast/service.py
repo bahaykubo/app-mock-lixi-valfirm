@@ -1,24 +1,24 @@
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from lxml import etree
 
-from spyne.server.django import DjangoApplication
-from spyne import Application, rpc, Service, Unicode
-from spyne.protocol.xml import XmlDocument
-from spyne.model.fault import Fault
+TNS = 'http://www.sandstone-vms.com.au/schema/vms/1.0'
 
 
-class MockLender(Service):
+@csrf_exempt
+def mock_lender_service(request):
+    if request.method != 'POST':
+        return HttpResponse(status=400)
 
-    @rpc(Unicode, _returns=Unicode, _out_message_name='acknowledge')
-    # pylint: disable=invalid-name,unused-argument
-    def notificationList(self, notification):
-        # pylint: disable=no-member
-        method = self.transport.req_method
-        if method.lower() != 'post':
-            raise Fault(faultcode='Client', faultstring=f'{method} is not allowed')
+    try:
+        root = etree.fromstring(request.body)
+    except etree.XMLSyntaxError:
+        return HttpResponse('not found', status=404)
 
+    if etree.QName(root).localname != 'notificationList':
+        return HttpResponse('not found', status=404)
 
-application = Application([MockLender], 'http://www.sandstone-vms.com.au/schema/vms/1.0',
-                          in_protocol=XmlDocument(),
-                          out_protocol=XmlDocument())
-
-mock_lender_service = csrf_exempt(DjangoApplication(application))
+    return HttpResponse(
+        f'<tns:acknowledge xmlns:tns="{TNS}"/>',
+        content_type='text/xml',
+    )

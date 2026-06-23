@@ -19,9 +19,9 @@ jobs:
       uses: actions/checkout@master
 
     - name: Set up Python version
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.7'
+        python-version: '3.13'
 
     - name: Install dependencies
       run: |
@@ -41,7 +41,7 @@ jobs:
 
     - name: Start app on local
       run: |
-        docker-compose -f docker-compose.ci.yml up -d --build
+        docker compose -f docker-compose.ci.yml up -d --build
 
     - name: Run e2e test on local
       if: ${{ always() }}

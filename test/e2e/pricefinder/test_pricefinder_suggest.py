@@ -15,7 +15,7 @@ class TestPriceFinderSuggest(TestCase):
             'q': '20 SOMERVILLE STREET'
         }, headers={
             'authorization': 'Bearer token'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 200)
 
         data = json.loads(response.text)
@@ -24,7 +24,7 @@ class TestPriceFinderSuggest(TestCase):
     def test_should_return_no_search_suggestion(self):
         response = requests.get(self.url, headers={
             'authorization': 'Bearer token'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 200)
 
         data = json.loads(response.text)
@@ -33,7 +33,7 @@ class TestPriceFinderSuggest(TestCase):
     def test_should_return_unauthorized_request_with_no_authorization_header(self):
         response = requests.get(self.url, params={
             'q': '20 SOMERVILLE STREET'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 401)
 
     def test_should_return_unauthorized_request_with_an_invalid_token(self):
@@ -41,7 +41,7 @@ class TestPriceFinderSuggest(TestCase):
             'q': '20 SOMERVILLE STREET'
         }, headers={
             'authorization': 'invalid token'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 401)
 
     def test_should_only_allow_get_requests(self):
@@ -50,5 +50,5 @@ class TestPriceFinderSuggest(TestCase):
                 'q': '20 SOMERVILLE STREET'
             }, headers={
                 'authorization': 'invalid token'
-            })
+            }, timeout=30)
             self.assertEqual(response.status_code, 405)

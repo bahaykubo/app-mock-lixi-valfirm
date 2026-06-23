@@ -10,7 +10,7 @@ class TestMocktrack(TestCase):
 
     def setUp(self):
         self.view = views
-        self.xml = Path('./test/files/mocktrack/valid.xml').read_text()
+        self.xml = Path('./test/files/mocktrack/valid.xml').read_text(encoding='utf-8')
 
         self.request_parameters = {
             'fuseaction': 'api.interface',

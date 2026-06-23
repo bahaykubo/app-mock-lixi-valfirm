@@ -13,7 +13,7 @@ class TestPriceFinderPropertiesImages(TestCase):
     def test_should_return_list_of_property_images_given_a_property_id_number(self):
         response = requests.get(f'{self.url}/900/images', headers={
             'authorization': 'Bearer token'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 200)
 
         data = json.loads(response.text)
@@ -26,22 +26,22 @@ class TestPriceFinderPropertiesImages(TestCase):
     def test_should_return_an_error_given_a_property_id_not_number(self):
         response = requests.get(f'{self.url}/xyz/images', headers={
             'authorization': 'Bearer token'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 404)
 
     def test_should_return_unauthorized_request_with_no_authorization_header(self):
-        response = requests.get(f'{self.url}/900/images')
+        response = requests.get(f'{self.url}/900/images', timeout=30)
         self.assertEqual(response.status_code, 401)
 
     def test_should_return_unauthorized_request_with_an_invalid_token(self):
         response = requests.get(f'{self.url}/900/images', headers={
             'authorization': 'invalid token'
-        })
+        }, timeout=30)
         self.assertEqual(response.status_code, 401)
 
     def test_should_only_allow_get_requests(self):
         for action_method in ['POST', 'PUT', 'DELETE']:
             response = requests.request(action_method, f'{self.url}/900/images', headers={
                 'authorization': 'Bearer token'
-            })
+            }, timeout=30)
             self.assertEqual(response.status_code, 405)

@@ -19,7 +19,7 @@ class TestLendfast(TestCase):
         self.invalid_packet = '<q1:XnotificationList xmlns:q1="http://www.sandstone-vms.com.au/schema/vms/1.0"><q1:notification type="StatusChange" timestamp="2020-05-29T12:57:27.2581866"><Identifier UniqueID="cf456220-cc3a-4dfd-8ddd-7714dfec69f1" Description="Notification ID" xmlns="http://www.lixi.org.au/schema/cal1.3/ValuationTransaction" /><Status Name="Accepted" xmlns="http://www.lixi.org.au/schema/cal1.3/ValuationTransaction"></Status></q1:notification></q1:XnotificationList>'
 
     def test_oath2_returns_token(self):
-        response = requests.post(self.token_url, headers=self.token_headers)
+        response = requests.post(self.token_url, headers=self.token_headers, timeout=30)
         self.assertEqual(response.status_code, 200)
         token = json.loads(response.text)
         self.assertIsNotNone(token['access_token'])
@@ -27,27 +27,27 @@ class TestLendfast(TestCase):
     def test_oath2_only_put_method_allowed(self):
         methods = ['GET', 'PUT', 'DELETE']
         for method in methods:
-            response = requests.request(method, self.token_url, headers=self.token_headers)
+            response = requests.request(method, self.token_url, headers=self.token_headers, timeout=30)
             self.assertEqual(response.status_code, 405)
 
     def test_lender_successful_soap_message(self):
-        response = requests.post(self.url, data=self.packet, headers=self.headers)
+        response = requests.post(self.url, data=self.packet, headers=self.headers, timeout=30)
         self.assertEqual(response.status_code, 200)
         self.assertIn('acknowledge', response.text)
 
     def test_only_put_method_allowed(self):
         methods = ['GET', 'PUT', 'DELETE']
         for method in methods:
-            response = requests.request(method, self.url, data=self.packet, headers=self.headers)
+            response = requests.request(method, self.url, data=self.packet, headers=self.headers, timeout=30)
             self.assertEqual(response.status_code, 400)
 
     def test_invalid_message(self):
         invalid_packet = '<xml>invalid</xml>'
-        response = requests.post(self.url, data=invalid_packet, headers=self.headers)
+        response = requests.post(self.url, data=invalid_packet, headers=self.headers, timeout=30)
         self.assertEqual(response.status_code, 404)
         self.assertIn('not found', response.text)
 
     def test_invalid_soap_action_method(self):
-        response = requests.post(self.url, data=self.invalid_packet, headers=self.headers)
+        response = requests.post(self.url, data=self.invalid_packet, headers=self.headers, timeout=30)
         self.assertEqual(response.status_code, 404)
         self.assertIn('not found', response.text)
