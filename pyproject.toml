@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "app-mock-lixi-valfirm"
+version = "0.1.0"
+description = "Mock services for lixi, lendfast, hometrack and property images"
+authors = []
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.13"
+lxml = "6.1.1"
+Django = "5.2.15"
+reportlab = "4.5.1"
+
+[tool.poetry.group.dev.dependencies]
+requests = "2.31.0"
+pylint = "3.3.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

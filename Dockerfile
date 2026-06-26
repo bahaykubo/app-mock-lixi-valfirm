@@ -1,10 +1,11 @@
 FROM python:3.13-slim
 
 ENV PATH="/scripts:${PATH}"
-ENV PIPENV_VENV_IN_PROJECT=1
-ENV PIPENV_VERBOSITY=-1
+ENV POETRY_NO_INTERACTION=1
+ENV POETRY_VIRTUALENVS_IN_PROJECT=1
+ENV POETRY_VIRTUALENVS_CREATE=1
 
-RUN pip install pipenv
+RUN pip install poetry
 
 RUN mkdir -p /app/mock_service
 COPY ./mock_service /app/mock_service
@@ -12,8 +13,8 @@ COPY ./mock_service /app/mock_service
 WORKDIR /app
 COPY __init__.py .
 COPY manage.py .
-COPY ./Pipfile .
-COPY ./Pipfile.lock .
+COPY ./pyproject.toml .
+COPY ./poetry.lock .
 
 RUN mkdir scripts
 COPY ./scripts /scripts
@@ -23,5 +24,5 @@ RUN adduser appuser
 RUN chown -R appuser:appuser /app
 
 USER appuser
-RUN pipenv install
+RUN poetry install --without dev
 CMD ["start.sh"]

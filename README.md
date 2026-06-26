@@ -4,14 +4,14 @@ This is a collection of mock services for lixi, lendfast, hometrack and property
 
 # Setup
 
-You will need at least [Python version 3.7](https://www.python.org/downloads/release/python-370/) with [pipenv](https://github.com/pypa/pipenv) installed to manage the dependencies and for creating a virtual environment.
+You will need at least [Python version 3.13](https://www.python.org/downloads/release/python-3130/) with [poetry](https://python-poetry.org/) installed to manage the dependencies and virtual environment.
 
-## Create Virtual Environment
+## Install Dependencies
 
-Create the virtual environment and install all dependencies include dev.
+Install all dependencies including dev.
 
 ```bash
-pipenv install --dev
+poetry install --with dev
 ```
 
 # Run Application
