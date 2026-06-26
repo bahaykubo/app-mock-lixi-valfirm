@@ -1,3 +1,3 @@
 #!/bin/sh
 set -e
-pipenv run python -m unittest discover -s test/e2e
+poetry run python -m unittest discover -s test/e2e
