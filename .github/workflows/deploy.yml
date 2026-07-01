@@ -34,7 +34,7 @@ jobs:
         platform-version: '3.13'
 
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v1
+      uses: azure/webapps-deploy@v3
       with:
         app-name: 'lixi-mock-valfirm-service'
         slot-name: 'production'
